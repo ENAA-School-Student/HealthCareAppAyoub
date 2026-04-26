@@ -1,5 +1,34 @@
 package com.example.HealthCare.model.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Patient
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String telephone;
+    private LocalDate dateNaissance;
+
+    @OneToMany(mappedBy = "patient")
+    private List<RendezVous> renderVousList;
+
+    @OneToOne(mappedBy = "patient")
+    private DossierMedical dossierMedical;
+
 }
