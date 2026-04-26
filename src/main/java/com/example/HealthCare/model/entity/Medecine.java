@@ -6,24 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class DossierMedical {
+public class Medecine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
+    private int id;
 
-    private String diagnostic;
-    private String observations;
-    private LocalDate dateCreation;
+    private String nom;
+    private String telephone;
+    private String email;
+    private String specialite;
 
-    @OneToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
-
+    @OneToMany(mappedBy = "medecine")
+    private List<RendezVous> rendezVousList;
 }
