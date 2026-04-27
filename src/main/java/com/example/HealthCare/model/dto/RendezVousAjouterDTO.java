@@ -1,4 +1,4 @@
 package com.example.HealthCare.model.dto;
 
-public class RendezVousDTO {
+public class RendezVousAjouterDTO {
 }
