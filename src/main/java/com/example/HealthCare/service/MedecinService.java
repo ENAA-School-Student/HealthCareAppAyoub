@@ -22,4 +22,31 @@ public class MedecinService {
         Medecine medecine = medecinMapper.ToEntity(medecinAjouterDTO);
         Medecine saveMedecine=medecinRepository.save(medecine);
         return medecinMapper.ToDTO(saveMedecine);
-}}
+}
+    public List<MedecinReturnDTO> obtenirTousLesMedecin() {
+        List<Medecine> medecines = medecinRepository.findAll();
+        List<MedecinReturnDTO> medecinReturnDTOS = new ArrayList<>();
+        for(Medecine medecine : medecines){
+            medecinReturnDTOS.add(medecinMapper.ToDTO(medecine));
+        }
+        return medecinReturnDTOS;
+    }
+
+
+    public MedecinReturnDTO modifieMedeceine(Long id , MedecinAjouterDTO medecinAjouterDTO){
+        Medecine medecine = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("Medecine Introvable"));
+
+        medecine.setNom(medecinAjouterDTO.getNom());
+        medecine.setEmail(medecinAjouterDTO.getEmail());
+        medecine.setTelephone(medecinAjouterDTO.getTelephone());
+
+        Medecine saveUpdatedMedecine = medecinRepository.save(medecine);
+        return medecinMapper.ToDTO(saveUpdatedMedecine);
+    }
+
+    public void supprimerMedecine(long id){
+        Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new RuntimeException("Medecine Introvable"));
+        medecinRepository.delete(medecine);
+    }
+}
+

@@ -1,5 +1,6 @@
 package com.example.HealthCare.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,6 @@ public class Medecine {
     private String specialite;
 
     @OneToMany(mappedBy = "medecine")
+    @JsonIgnore
     private List<RendezVous> rendezVousList;
 }
