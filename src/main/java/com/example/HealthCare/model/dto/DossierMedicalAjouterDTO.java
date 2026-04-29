@@ -16,5 +16,5 @@ public class DossierMedicalAjouterDTO {
     @NonNull
     private LocalDate dateCreation;
     @NonNull
-    private int patient;
+    private int patientId;
 }

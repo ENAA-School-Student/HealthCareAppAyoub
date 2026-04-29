@@ -32,11 +32,7 @@ public class RendezVousService {
         Medecine medecin = medecinRepository.findById(rendezVousAjouterDTO.getMedecinId()).orElseThrow(() -> new RuntimeException("Medecin not found"));
         Patient patient = patientRepository.findById(rendezVousAjouterDTO.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
 
-
-        RendezVous rendezVous = new RendezVous();
-
-        rendezVous.setDateRendezVous(rendezVousAjouterDTO.getDateRendezVous());
-        rendezVous.setStatut(rendezVousAjouterDTO.getStatut());
+        RendezVous rendezVous = rendezVousMapper.ToEntity(rendezVousAjouterDTO);
         rendezVous.setMedecine(medecin);
         rendezVous.setPatient(patient);
 

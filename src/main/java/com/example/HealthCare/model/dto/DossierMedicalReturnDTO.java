@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 @Getter
 @Setter
-public class DoussierMedicalReturnDTO {
+public class DossierMedicalReturnDTO {
     private int id ;
     private String diagnostic;
     private String observations;

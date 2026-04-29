@@ -1,5 +1,6 @@
 package com.example.HealthCare.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class RendezVous {
 
     @ManyToOne
     @JoinColumn(name = "medecine_id")
+    @JsonIgnore
     private Medecine medecine;
 
     @ManyToOne
