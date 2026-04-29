@@ -31,6 +31,19 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTO(dossierMedical);
         }
 
+        public DoussierMedicalReturnDTO AjouterDiagnostic(int patientId , String diagnostic){
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
+        dossierMedical.setDiagnostic(diagnostic);
+        DossierMedical save = dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(save);
+        }
+        public DoussierMedicalReturnDTO AjouterObservation(int patientId , String observation){
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
+        dossierMedical.setObservations(observation);
+        DossierMedical save = dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(save);
+        }
+
 
 
 
