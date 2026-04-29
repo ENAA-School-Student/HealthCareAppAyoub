@@ -37,4 +37,9 @@ public class PatientController {
         patientService.supprimerPatinet(id);
       return  ResponseEntity.noContent().build();
     }
+    @GetMapping("/consulterPatient/{id}")
+    public ResponseEntity<PatientReturnDTO> consulterPatient(@PathVariable long id){
+     PatientReturnDTO rs= patientService.consulterPatient(id);
+        return ResponseEntity.ok(rs);
+    }
 }

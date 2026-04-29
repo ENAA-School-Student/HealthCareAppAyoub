@@ -50,4 +50,9 @@ return patientReturnDTOS;
         patientRepository.delete(patient);
     }
 
+    public PatientReturnDTO consulterPatient(Long id){
+        Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        return patientMapper.toDTO(patient);
+    }
+
 }

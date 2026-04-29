@@ -7,13 +7,14 @@ import lombok.Setter;
 import java.time.LocalDate;
 @Getter
 @Setter
-public class RendezVousAjouterDTO {
+
+public class DossierMedicalAjouterDTO {
     @NonNull
-    private LocalDate dateRendezVous;
+    private String diagnostic;
     @NonNull
-    private String statut;
+    private String observations;
     @NonNull
-    private Long medecinId;
+    private LocalDate dateCreation;
     @NonNull
-    private Long patientId;
+    private int patient;
 }

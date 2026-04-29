@@ -38,4 +38,15 @@ public class RendezVousController
       return  ResponseEntity.ok(rs);
     }
 
+    @GetMapping("/medecine/{id}")
+    public ResponseEntity<List<RendezVousReturnDTO>> rechercherRendezVousParMedecine(@PathVariable int id){
+        List<RendezVousReturnDTO> rs = rendezVousService.rechercherParMedecine(id);
+        return ResponseEntity.ok(rs);
+    }
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<List<RendezVousReturnDTO>> rechercherRendezVousParPatient(@PathVariable int id){
+        List<RendezVousReturnDTO> rs = rendezVousService.rechercherParPatient(id);
+        return ResponseEntity.ok(rs);
+    }
+
 }

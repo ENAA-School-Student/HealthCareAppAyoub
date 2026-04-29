@@ -1,7 +1,6 @@
 package com.example.HealthCare.service;
 
 import com.example.HealthCare.mapper.RendezVousMapper;
-import com.example.HealthCare.model.dto.MedecinAjouterDTO;
 import com.example.HealthCare.model.dto.RendezVousAjouterDTO;
 import com.example.HealthCare.model.dto.RendezVousReturnDTO;
 import com.example.HealthCare.model.entity.Medecine;
@@ -77,12 +76,20 @@ public class RendezVousService {
         return rendezVousReturnDTOS;
 
     }
+public  List<RendezVousReturnDTO> rechercherParPatient(int id){
+        List<RendezVousReturnDTO> GetResaul = new ArrayList<>();
+        for(RendezVous rendezVous : rendezVousRepository.findByPatient_Id(id) ){
+            GetResaul.add(rendezVousMapper.ToDTO(rendezVous));
+        }
+        return GetResaul;
+}
 
-
-
-
-
-
-
+public List<RendezVousReturnDTO> rechercherParMedecine(int id){
+        List<RendezVousReturnDTO> GetResaul = new ArrayList<>();
+        for(RendezVous rendezVous : rendezVousRepository.findByMedecine_Id(id)){
+            GetResaul.add(rendezVousMapper.ToDTO(rendezVous));
+        }
+        return GetResaul;
+}
 
 }

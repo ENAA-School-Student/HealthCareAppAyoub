@@ -1,7 +1,9 @@
 package com.example.HealthCare.service;
 
 import com.example.HealthCare.mapper.DossierMedicalMapper;
-import com.example.HealthCare.model.dto.DossierMedicalDTO;
+import com.example.HealthCare.mapper.RendezVousMapper;
+import com.example.HealthCare.model.dto.DossierMedicalAjouterDTO;
+import com.example.HealthCare.model.dto.DoussierMedicalReturnDTO;
 import com.example.HealthCare.model.entity.DossierMedical;
 import com.example.HealthCare.repository.DossierMedicalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,20 @@ public class DossierMedicalService {
     private DossierMedicalMapper dossierMedicalMapper;
 
 
-    public List<DossierMedicalDTO> getAllDossierMedical(){
-        List<DossierMedical> dossierMedicals =dossierMedicalRepository.findAll();
-        List<DossierMedicalDTO> dossierMedicalDTOS = new ArrayList<>();
-        for(DossierMedical dossierMedical : dossierMedicals){
-            dossierMedicalDTOS.add(dossierMedicalMapper.toDTO(dossierMedical));
-        }
-        return dossierMedicalDTOS;
+    public DoussierMedicalReturnDTO ajouterUnDossierMedical(DossierMedicalAjouterDTO dossierMedicalAjouterDTO){
+        DossierMedical dossierMedical = dossierMedicalMapper.toEntity(dossierMedicalAjouterDTO);
+        DossierMedical saveDossierMedical = dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(saveDossierMedical);
     }
+
+        public DoussierMedicalReturnDTO Consulterdossielmedical(int id){
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(id);
+        return dossierMedicalMapper.toDTO(dossierMedical);
+        }
+
+
+
+
+
+
 }

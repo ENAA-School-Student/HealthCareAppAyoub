@@ -1,9 +1,7 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.model.dto.DossierMedicalDTO;
-import com.example.HealthCare.model.entity.DossierMedical;
+import com.example.HealthCare.model.dto.DossierMedicalAjouterDTO;
 import com.example.HealthCare.service.DossierMedicalService;
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,7 @@ public class DossierMedicalController {
     public DossierMedicalService dossierMedicalService;
 
     @GetMapping
-    public List<DossierMedicalDTO> getDossier(){
+    public List<DossierMedicalAjouterDTO> getDossier(){
         return  dossierMedicalService.getAllDossierMedical();
     }
 

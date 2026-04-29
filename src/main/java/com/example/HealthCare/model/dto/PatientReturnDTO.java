@@ -16,5 +16,5 @@ public class PatientReturnDTO {
     private String telephone;
     private LocalDate dateNaissance;
     private List<RendezVousReturnDTO> rendezVousList;
-    private DossierMedicalDTO dossierMedical;
+    private DossierMedicalAjouterDTO dossierMedical;
 }
