@@ -30,4 +30,9 @@ class PatientServiceTest {
         assertEquals("Dupont", result.getNom());
     }
 
+    @Test
+    void modefierPatient(){
+
+    }
+
 }
