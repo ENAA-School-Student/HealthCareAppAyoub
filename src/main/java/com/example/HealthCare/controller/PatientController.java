@@ -43,9 +43,5 @@ public class PatientController {
         return ResponseEntity.ok(rs);
     }
 
-    @GetMapping("/patient")
-    public ResponseEntity<PatientResponseDTO> getParTele(@RequestParam  String tele){
-        PatientResponseDTO result = patientService.getPatientPartele(tele);
-        return ResponseEntity.ok(result);
-    }
+
 }

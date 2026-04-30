@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PatientResponseDTO {
-    private int id;
+    private long id;
     private String nom;
     private String prenom;
     private String email;

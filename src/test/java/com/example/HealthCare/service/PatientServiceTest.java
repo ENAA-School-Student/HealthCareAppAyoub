@@ -34,6 +34,20 @@ class PatientServiceTest {
     @Test
     void modefierPatient(){
         PatientResponseDTO save = patientService.ajouterPatient(dto);
+        PatientRequestDTO patientRequestDTO = new PatientRequestDTO();
+        patientRequestDTO.setNom("Ayoub");
+        patientRequestDTO.setPrenom("Hadi");
+        patientRequestDTO.setEmail("AyoubHadi@gmail.com");
+        patientRequestDTO.setTelephone("037477332");
+        patientRequestDTO.setDateNaissance(LocalDate.of(2000,02,22));
+
+        PatientResponseDTO modefier = patientService.modifierpatient(save.getId(),patientRequestDTO);
+
+        assertNotNull(modefier);
+        assertEquals("Ayoub", modefier.getNom());
+        assertEquals("Hadi", modefier.getPrenom());
+        assertEquals("AyoubHadi@gmail.com", modefier.getEmail());
+        assertEquals(save.getId(), modefier.getId());
 
 
     }
