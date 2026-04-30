@@ -1,9 +1,9 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.dto.MedecinRequestDTO;
+import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
-import com.example.HealthCare.model.dto.MedecinAjouterDTO;
-import com.example.HealthCare.model.dto.MedecinReturnDTO;
-import com.example.HealthCare.model.entity.Medecine;
+import com.example.HealthCare.model.Medecine;
 import com.example.HealthCare.repository.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,27 +18,27 @@ public class MedecinService {
     @Autowired
     private MedecinMapper medecinMapper;
 
-    public MedecinReturnDTO ajouterMedecin(MedecinAjouterDTO medecinAjouterDTO){
-        Medecine medecine = medecinMapper.ToEntity(medecinAjouterDTO);
+    public MedecinResponseDTO ajouterMedecin(MedecinRequestDTO medecinRequestDTO){
+        Medecine medecine = medecinMapper.ToEntity(medecinRequestDTO);
         Medecine saveMedecine=medecinRepository.save(medecine);
         return medecinMapper.ToDTO(saveMedecine);
 }
-    public List<MedecinReturnDTO> obtenirTousLesMedecin() {
+    public List<MedecinResponseDTO> obtenirTousLesMedecin() {
         List<Medecine> medecines = medecinRepository.findAll();
-        List<MedecinReturnDTO> medecinReturnDTOS = new ArrayList<>();
+        List<MedecinResponseDTO> medecinResponseDTOS = new ArrayList<>();
         for(Medecine medecine : medecines){
-            medecinReturnDTOS.add(medecinMapper.ToDTO(medecine));
+            medecinResponseDTOS.add(medecinMapper.ToDTO(medecine));
         }
-        return medecinReturnDTOS;
+        return medecinResponseDTOS;
     }
 
 
-    public MedecinReturnDTO modifieMedeceine(Long id , MedecinAjouterDTO medecinAjouterDTO){
+    public MedecinResponseDTO modifieMedeceine(Long id , MedecinRequestDTO medecinRequestDTO){
         Medecine medecine = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("Medecine Introvable"));
 
-        medecine.setNom(medecinAjouterDTO.getNom());
-        medecine.setEmail(medecinAjouterDTO.getEmail());
-        medecine.setTelephone(medecinAjouterDTO.getTelephone());
+        medecine.setNom(medecinRequestDTO.getNom());
+        medecine.setEmail(medecinRequestDTO.getEmail());
+        medecine.setTelephone(medecinRequestDTO.getTelephone());
 
         Medecine saveUpdatedMedecine = medecinRepository.save(medecine);
         return medecinMapper.ToDTO(saveUpdatedMedecine);

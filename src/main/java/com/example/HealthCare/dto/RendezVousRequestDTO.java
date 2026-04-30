@@ -1,4 +1,4 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 @Getter
 @Setter
-public class RendezVousAjouterDTO {
+public class RendezVousRequestDTO {
     @NonNull
     private LocalDate dateRendezVous;
     @NonNull

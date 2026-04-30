@@ -1,4 +1,4 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PatientAjouterDTO {
+public class PatientRequestDTO {
     @NotBlank
     private String nom;
     @NotBlank

@@ -1,7 +1,7 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.model.dto.PatientAjouterDTO;
-import com.example.HealthCare.model.dto.PatientReturnDTO;
+import com.example.HealthCare.dto.PatientRequestDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,18 @@ public class PatientController {
     private PatientService patientService;
 
     @PostMapping
-    public ResponseEntity<PatientReturnDTO> ajouterPatient(@RequestBody @Valid PatientAjouterDTO dto){
-        PatientReturnDTO savePatient = patientService.ajouterPatient(dto);
+    public ResponseEntity<PatientResponseDTO> ajouterPatient(@RequestBody @Valid PatientRequestDTO dto){
+        PatientResponseDTO savePatient = patientService.ajouterPatient(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savePatient);
     }
     @GetMapping
-    public ResponseEntity<List<PatientReturnDTO>> obtenirTousLesPatients(){
-    List<PatientReturnDTO> rs = patientService.obtenirTousLesPatients();
+    public ResponseEntity<List<PatientResponseDTO>> obtenirTousLesPatients(){
+    List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
     return ResponseEntity.ok(rs);
     }
     @PutMapping("/modifier/{id}")
-    public ResponseEntity<PatientReturnDTO> modifierpatient(@PathVariable long id , @RequestBody PatientAjouterDTO patientAjouterDTO){
-        PatientReturnDTO rs = patientService.modifierpatient(id,patientAjouterDTO);
+    public ResponseEntity<PatientResponseDTO> modifierpatient(@PathVariable long id , @RequestBody PatientRequestDTO patientRequestDTO){
+        PatientResponseDTO rs = patientService.modifierpatient(id, patientRequestDTO);
         return ResponseEntity.ok(rs);
     }
     @DeleteMapping("/supprimer/{id}")
@@ -38,8 +38,14 @@ public class PatientController {
       return  ResponseEntity.noContent().build();
     }
     @GetMapping("/consulterPatient/{id}")
-    public ResponseEntity<PatientReturnDTO> consulterPatient(@PathVariable long id){
-     PatientReturnDTO rs= patientService.consulterPatient(id);
+    public ResponseEntity<PatientResponseDTO> consulterPatient(@PathVariable long id){
+     PatientResponseDTO rs= patientService.consulterPatient(id);
         return ResponseEntity.ok(rs);
+    }
+
+    @GetMapping("/patient")
+    public ResponseEntity<PatientResponseDTO> getParTele(@RequestParam  String tele){
+        PatientResponseDTO result = patientService.getPatientPartele(tele);
+        return ResponseEntity.ok(result);
     }
 }

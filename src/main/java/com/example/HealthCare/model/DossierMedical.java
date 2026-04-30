@@ -1,4 +1,4 @@
-package com.example.HealthCare.model.entity;
+package com.example.HealthCare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

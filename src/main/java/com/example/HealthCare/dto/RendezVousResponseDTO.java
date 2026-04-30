@@ -1,14 +1,14 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 
-import com.example.HealthCare.model.entity.Medecine;
-import com.example.HealthCare.model.entity.Patient;
+import com.example.HealthCare.model.Medecine;
+import com.example.HealthCare.model.Patient;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class RendezVousReturnDTO {
+public class RendezVousResponseDTO {
     private int id;
     private LocalDate dateRendezVous;
     private String statut;

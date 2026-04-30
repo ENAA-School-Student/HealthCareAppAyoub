@@ -1,4 +1,4 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MedecinAjouterDTO
+public class MedecinRequestDTO
 {
     @NotBlank(message = "Nom is required")
     private String nom;

@@ -1,9 +1,9 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.dto.PatientRequestDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.mapper.PatientMapper;
-import com.example.HealthCare.model.dto.PatientAjouterDTO;
-import com.example.HealthCare.model.dto.PatientReturnDTO;
-import com.example.HealthCare.model.entity.Patient;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,28 +18,28 @@ public class PatientService {
     @Autowired
     private PatientMapper patientMapper;
 
-    public PatientReturnDTO ajouterPatient(PatientAjouterDTO patientAjouterDTO) {
-        Patient patient = patientMapper.toEntity(patientAjouterDTO);
+    public PatientResponseDTO ajouterPatient(PatientRequestDTO patientRequestDTO) {
+        Patient patient = patientMapper.toEntity(patientRequestDTO);
         Patient savePatient = patientRepository.save(patient);
         return patientMapper.toDTO(savePatient);
     }
 
-    public List<PatientReturnDTO> obtenirTousLesPatients(){
+    public List<PatientResponseDTO> obtenirTousLesPatients(){
         List<Patient>patients = patientRepository.findAll();
-        List<PatientReturnDTO> patientReturnDTOS = new ArrayList<>();
+        List<PatientResponseDTO> patientResponseDTOS = new ArrayList<>();
         for(Patient patient : patients){
-        patientReturnDTOS.add(patientMapper.toDTO(patient));
+        patientResponseDTOS.add(patientMapper.toDTO(patient));
         }
-return patientReturnDTOS;
+return patientResponseDTOS;
     }
-    public PatientReturnDTO modifierpatient(Long id, PatientAjouterDTO patientAjouterDTO){
+    public PatientResponseDTO modifierpatient(Long id, PatientRequestDTO patientRequestDTO){
         Patient patient = patientRepository.findById(id).orElseThrow(()->new RuntimeException("Patient introvable"));
 
-        patient.setNom(patientAjouterDTO.getNom());
-        patient.setPrenom(patientAjouterDTO.getPrenom());
-        patient.setEmail(patientAjouterDTO.getEmail());
-        patient.setTelephone(patientAjouterDTO.getTelephone());
-        patient.setDateNaissance(patientAjouterDTO.getDateNaissance());
+        patient.setNom(patientRequestDTO.getNom());
+        patient.setPrenom(patientRequestDTO.getPrenom());
+        patient.setEmail(patientRequestDTO.getEmail());
+        patient.setTelephone(patientRequestDTO.getTelephone());
+        patient.setDateNaissance(patientRequestDTO.getDateNaissance());
 
         Patient saveUpdate = patientRepository.save(patient);
         return patientMapper.toDTO(saveUpdate);
@@ -50,7 +50,7 @@ return patientReturnDTOS;
         patientRepository.delete(patient);
     }
 
-    public PatientReturnDTO consulterPatient(Long id){
+    public PatientResponseDTO consulterPatient(Long id){
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
         return patientMapper.toDTO(patient);
     }

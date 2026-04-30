@@ -1,10 +1,7 @@
 package com.example.HealthCare.repository;
 
-import com.example.HealthCare.model.entity.Medecine;
-import com.example.HealthCare.model.entity.Patient;
-import com.example.HealthCare.model.entity.RendezVous;
+import com.example.HealthCare.model.RendezVous;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

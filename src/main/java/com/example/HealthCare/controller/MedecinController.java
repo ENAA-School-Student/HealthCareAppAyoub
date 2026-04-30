@@ -1,7 +1,7 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.model.dto.MedecinAjouterDTO;
-import com.example.HealthCare.model.dto.MedecinReturnDTO;
+import com.example.HealthCare.dto.MedecinRequestDTO;
+import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ public class MedecinController {
     MedecinService medecinService;
 
     @PostMapping
-    public ResponseEntity<MedecinReturnDTO> ajouterMedecin(@RequestBody @Valid MedecinAjouterDTO medecinAjouterDTO) {
-        MedecinReturnDTO saveMedecin = medecinService.ajouterMedecin(medecinAjouterDTO);
+    public ResponseEntity<MedecinResponseDTO> ajouterMedecin(@RequestBody @Valid MedecinRequestDTO medecinRequestDTO) {
+        MedecinResponseDTO saveMedecin = medecinService.ajouterMedecin(medecinRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveMedecin);
     }
 
     @GetMapping
-    public ResponseEntity<List<MedecinReturnDTO>> obtenirTousLesMedecin() {
-      List<MedecinReturnDTO> rs= medecinService.obtenirTousLesMedecin();
+    public ResponseEntity<List<MedecinResponseDTO>> obtenirTousLesMedecin() {
+      List<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecin();
        return ResponseEntity.ok(rs);
     }
 
     @PutMapping("/modifier/{id}")
-    public ResponseEntity<MedecinReturnDTO> modifierMedecine(@PathVariable long id , @RequestBody MedecinAjouterDTO medecinAjouterDTO){
-        MedecinReturnDTO rs = medecinService.modifieMedeceine(id, medecinAjouterDTO);
+    public ResponseEntity<MedecinResponseDTO> modifierMedecine(@PathVariable long id , @RequestBody MedecinRequestDTO medecinRequestDTO){
+        MedecinResponseDTO rs = medecinService.modifieMedeceine(id, medecinRequestDTO);
         return ResponseEntity.ok(rs);
     }
 

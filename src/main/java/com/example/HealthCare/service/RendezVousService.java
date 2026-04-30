@@ -1,11 +1,11 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.dto.RendezVousRequestDTO;
+import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.mapper.RendezVousMapper;
-import com.example.HealthCare.model.dto.RendezVousAjouterDTO;
-import com.example.HealthCare.model.dto.RendezVousReturnDTO;
-import com.example.HealthCare.model.entity.Medecine;
-import com.example.HealthCare.model.entity.Patient;
-import com.example.HealthCare.model.entity.RendezVous;
+import com.example.HealthCare.model.Medecine;
+import com.example.HealthCare.model.Patient;
+import com.example.HealthCare.model.RendezVous;
 import com.example.HealthCare.repository.MedecinRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
@@ -27,12 +27,12 @@ public class RendezVousService {
     @Autowired
     PatientRepository patientRepository;
 
-    public  RendezVousReturnDTO ajouterRendezVous(RendezVousAjouterDTO rendezVousAjouterDTO)
+    public RendezVousResponseDTO ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO)
     {
-        Medecine medecin = medecinRepository.findById(rendezVousAjouterDTO.getMedecinId()).orElseThrow(() -> new RuntimeException("Medecin not found"));
-        Patient patient = patientRepository.findById(rendezVousAjouterDTO.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+        Medecine medecin = medecinRepository.findById(rendezVousRequestDTO.getMedecinId()).orElseThrow(() -> new RuntimeException("Medecin not found"));
+        Patient patient = patientRepository.findById(rendezVousRequestDTO.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
 
-        RendezVous rendezVous = rendezVousMapper.ToEntity(rendezVousAjouterDTO);
+        RendezVous rendezVous = rendezVousMapper.ToEntity(rendezVousRequestDTO);
         rendezVous.setMedecine(medecin);
         rendezVous.setPatient(patient);
 
@@ -41,20 +41,20 @@ public class RendezVousService {
         return rendezVousMapper.ToDTO(save);
     }
 
-    public RendezVousReturnDTO modifieRendezVous(Long id, RendezVousAjouterDTO rendezVousAjouterDTO){
+    public RendezVousResponseDTO modifieRendezVous(Long id, RendezVousRequestDTO rendezVousRequestDTO){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new RuntimeException("RendezVous Introvable"));
         Medecine medecine = medecinRepository.findById(id).orElseThrow(()->new RuntimeException("Not found"));
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
         rendezVous.setMedecine(medecine);
         rendezVous.setPatient(patient);
-        rendezVous.setStatut(rendezVousAjouterDTO.getStatut());
-        rendezVous.setDateRendezVous(rendezVousAjouterDTO.getDateRendezVous());
+        rendezVous.setStatut(rendezVousRequestDTO.getStatut());
+        rendezVous.setDateRendezVous(rendezVousRequestDTO.getDateRendezVous());
 
         RendezVous saveUpdatedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.ToDTO(saveUpdatedRendezVous);
     }
 
-    public RendezVousReturnDTO AnnulerRendezVous(long id){
+    public RendezVousResponseDTO AnnulerRendezVous(long id){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new RuntimeException("RendezVou Introvable"));
 
         rendezVous.setStatut("Annuler");
@@ -63,25 +63,25 @@ public class RendezVousService {
         return rendezVousMapper.ToDTO(saveAnuller);
     }
 
-    public List<RendezVousReturnDTO> obtenirTousLesRendezVous(){
+    public List<RendezVousResponseDTO> obtenirTousLesRendezVous(){
         List<RendezVous> rendezVous = rendezVousRepository.findAll();
-        List<RendezVousReturnDTO> rendezVousReturnDTOS = new ArrayList<>();
+        List<RendezVousResponseDTO> rendezVousResponseDTOS = new ArrayList<>();
         for(RendezVous RV: rendezVous){
-            rendezVousReturnDTOS.add(rendezVousMapper.ToDTO(RV));
+            rendezVousResponseDTOS.add(rendezVousMapper.ToDTO(RV));
         }
-        return rendezVousReturnDTOS;
+        return rendezVousResponseDTOS;
 
     }
-public  List<RendezVousReturnDTO> rechercherParPatient(int id){
-        List<RendezVousReturnDTO> GetResaul = new ArrayList<>();
+public  List<RendezVousResponseDTO> rechercherParPatient(int id){
+        List<RendezVousResponseDTO> GetResaul = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByPatient_Id(id) ){
             GetResaul.add(rendezVousMapper.ToDTO(rendezVous));
         }
         return GetResaul;
 }
 
-public List<RendezVousReturnDTO> rechercherParMedecine(int id){
-        List<RendezVousReturnDTO> GetResaul = new ArrayList<>();
+public List<RendezVousResponseDTO> rechercherParMedecine(int id){
+        List<RendezVousResponseDTO> GetResaul = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByMedecine_Id(id)){
             GetResaul.add(rendezVousMapper.ToDTO(rendezVous));
         }

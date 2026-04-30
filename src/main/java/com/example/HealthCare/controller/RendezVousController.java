@@ -1,7 +1,7 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.model.dto.RendezVousAjouterDTO;
-import com.example.HealthCare.model.dto.RendezVousReturnDTO;
+import com.example.HealthCare.dto.RendezVousRequestDTO;
+import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.service.RendezVousService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,34 +18,34 @@ public class RendezVousController
     private RendezVousService rendezVousService;
 
     @PostMapping
-    public ResponseEntity<RendezVousReturnDTO> ajouterRendezVous(RendezVousAjouterDTO rendezVousAjouterDTO){
-        RendezVousReturnDTO saveRendezVous = rendezVousService.ajouterRendezVous(rendezVousAjouterDTO);
+    public ResponseEntity<RendezVousResponseDTO> ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO){
+        RendezVousResponseDTO saveRendezVous = rendezVousService.ajouterRendezVous(rendezVousRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRendezVous);
     }
     @PutMapping("/modifier/{id}")
-    public ResponseEntity<RendezVousReturnDTO> modifierRendezVous(@PathVariable long id, @RequestBody RendezVousAjouterDTO rendezVousAjouterDTO){
-        RendezVousReturnDTO rs = rendezVousService.modifieRendezVous(id,rendezVousAjouterDTO);
+    public ResponseEntity<RendezVousResponseDTO> modifierRendezVous(@PathVariable long id, @RequestBody RendezVousRequestDTO rendezVousRequestDTO){
+        RendezVousResponseDTO rs = rendezVousService.modifieRendezVous(id, rendezVousRequestDTO);
         return ResponseEntity.ok(rs);
     }
     @PutMapping("/annulerRendezVous/{id}")
-    public ResponseEntity<RendezVousReturnDTO> annulerRendezVous(@PathVariable long id){
-        RendezVousReturnDTO rs = rendezVousService.AnnulerRendezVous(id);
+    public ResponseEntity<RendezVousResponseDTO> annulerRendezVous(@PathVariable long id){
+        RendezVousResponseDTO rs = rendezVousService.AnnulerRendezVous(id);
         return ResponseEntity.ok(rs);
     }
     @GetMapping
-    public ResponseEntity<List<RendezVousReturnDTO>> obtenirTousLesRendezVous(){
-      List<RendezVousReturnDTO>   rs = rendezVousService.obtenirTousLesRendezVous();
+    public ResponseEntity<List<RendezVousResponseDTO>> obtenirTousLesRendezVous(){
+      List<RendezVousResponseDTO>   rs = rendezVousService.obtenirTousLesRendezVous();
       return  ResponseEntity.ok(rs);
     }
 
     @GetMapping("/medecine/{id}")
-    public ResponseEntity<List<RendezVousReturnDTO>> rechercherRendezVousParMedecine(@PathVariable int id){
-        List<RendezVousReturnDTO> rs = rendezVousService.rechercherParMedecine(id);
+    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParMedecine(@PathVariable int id){
+        List<RendezVousResponseDTO> rs = rendezVousService.rechercherParMedecine(id);
         return ResponseEntity.ok(rs);
     }
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<RendezVousReturnDTO>> rechercherRendezVousParPatient(@PathVariable int id){
-        List<RendezVousReturnDTO> rs = rendezVousService.rechercherParPatient(id);
+    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParPatient(@PathVariable int id){
+        List<RendezVousResponseDTO> rs = rendezVousService.rechercherParPatient(id);
         return ResponseEntity.ok(rs);
     }
 

@@ -1,16 +1,20 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 
-import com.example.HealthCare.model.entity.Patient;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.LocalDate;
 @Getter
 @Setter
-public class DossierMedicalReturnDTO {
-    private int id ;
+
+public class DossierMedicalRequestDTO {
+    @NonNull
     private String diagnostic;
+    @NonNull
     private String observations;
+    @NonNull
     private LocalDate dateCreation;
-    private Patient patient;
+    @NonNull
+    private int patientId;
 }

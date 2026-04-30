@@ -1,7 +1,7 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.model.dto.DossierMedicalAjouterDTO;
-import com.example.HealthCare.model.dto.DossierMedicalReturnDTO;
+import com.example.HealthCare.dto.DossierMedicalRequestDTO;
+import com.example.HealthCare.dto.DossierMedicalResponseDTO;
 import com.example.HealthCare.service.DossierMedicalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,23 +15,23 @@ public class DossierMedicalController {
     public DossierMedicalService dossierMedicalService;
 
     @PostMapping
-    public ResponseEntity<DossierMedicalReturnDTO> ajouterDossierMedical(DossierMedicalAjouterDTO dossierMedicalAjouterDTO){
-        DossierMedicalReturnDTO save = dossierMedicalService.ajouterUnDossierMedical(dossierMedicalAjouterDTO);
+    public ResponseEntity<DossierMedicalResponseDTO> ajouterDossierMedical(DossierMedicalRequestDTO dossierMedicalRequestDTO){
+        DossierMedicalResponseDTO save = dossierMedicalService.ajouterUnDossierMedical(dossierMedicalRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
     @PutMapping("/{patientId}/diagnostic")
-    public ResponseEntity<DossierMedicalReturnDTO> ajouterDiagnostic(@PathVariable int id, @RequestBody String diagnostic){
-        DossierMedicalReturnDTO rs = dossierMedicalService.AjouterDiagnostic(id, diagnostic);
+    public ResponseEntity<DossierMedicalResponseDTO> ajouterDiagnostic(@PathVariable int id, @RequestBody String diagnostic){
+        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterDiagnostic(id, diagnostic);
         return ResponseEntity.ok(rs);
     }
     @PutMapping("/{patientId}/observation")
-    public ResponseEntity<DossierMedicalReturnDTO>  ajouterObservation(@PathVariable int id , @RequestBody String observation){
-        DossierMedicalReturnDTO rs = dossierMedicalService.AjouterObservation(id, observation);
+    public ResponseEntity<DossierMedicalResponseDTO>  ajouterObservation(@PathVariable int id , @RequestBody String observation){
+        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterObservation(id, observation);
         return ResponseEntity.ok(rs);
     }
     @GetMapping("/DossierMedical/{id}")
-    public ResponseEntity<DossierMedicalReturnDTO> Consulterdossielmedical(@PathVariable int id){
-        DossierMedicalReturnDTO rs = dossierMedicalService.Consulterdossielmedical(id);
+    public ResponseEntity<DossierMedicalResponseDTO> Consulterdossielmedical(@PathVariable int id){
+        DossierMedicalResponseDTO rs = dossierMedicalService.Consulterdossielmedical(id);
         return ResponseEntity.ok(rs);
     }
 

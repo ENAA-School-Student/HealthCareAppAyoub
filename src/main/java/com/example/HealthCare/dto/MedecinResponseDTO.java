@@ -1,13 +1,13 @@
-package com.example.HealthCare.model.dto;
+package com.example.HealthCare.dto;
 
-import com.example.HealthCare.model.entity.RendezVous;
+import com.example.HealthCare.model.RendezVous;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 @Getter
 @Setter
-public class MedecinReturnDTO {
+public class MedecinResponseDTO {
     private int id;
     private String nom;
     private String telephone;
