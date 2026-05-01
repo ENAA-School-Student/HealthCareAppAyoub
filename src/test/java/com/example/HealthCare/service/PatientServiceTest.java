@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -47,9 +48,18 @@ class PatientServiceTest {
         assertEquals("Ayoub", modefier.getNom());
         assertEquals("Hadi", modefier.getPrenom());
         assertEquals("AyoubHadi@gmail.com", modefier.getEmail());
+
         assertEquals(save.getId(), modefier.getId());
 
 
     }
+    @Test
+    void obtenirTousLesPatients(){
+        List<PatientResponseDTO> rs= patientService.obtenirTousLesPatients();
+        assertNotNull(rs);
+        assertFalse(rs.isEmpty());
+    }
+
+
 
 }
