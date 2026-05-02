@@ -45,7 +45,7 @@ return patientResponseDTOS;
         return patientMapper.toDTO(saveUpdate);
     }
 
-    public void supprimerPatinet(Long id){
+        public void supprimerPatinet(Long id){
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Patient Intovable"));
         patientRepository.delete(patient);
     }

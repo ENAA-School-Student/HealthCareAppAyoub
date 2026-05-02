@@ -16,33 +16,32 @@ import static org.junit.jupiter.api.Assertions.*;
 class PatientServiceTest {
     @Autowired
     private PatientService patientService;
-    PatientRequestDTO dto = new PatientRequestDTO();
-
-    @Test
-    void ajouterPatient() {
         PatientRequestDTO dto = new PatientRequestDTO();
-        dto.setNom("Dupont");
-        dto.setPrenom("Jean");
-        dto.setEmail("jean@email.com");
-        dto.setTelephone("0600000001");
-        dto.setDateNaissance(LocalDate.of(1990, 1, 15));
-        PatientResponseDTO result = patientService.ajouterPatient(dto);
 
-        assertNotNull(result.getId());
-        assertEquals("Dupont", result.getNom());
-    }
+        @Test
+        void shouldAjouterPatient() {
+            dto.setNom("Dupont");
+            dto.setPrenom("Jean");
+            dto.setEmail("jean@email.com");
+            dto.setTelephone("0600000001");
+            dto.setDateNaissance(LocalDate.of(1990, 1, 15));
+            PatientResponseDTO result = patientService.ajouterPatient(dto);
+
+            assertNotNull(result.getId());
+            assertEquals("Dupont", result.getNom());
+        }
 
     @Test
-    void modefierPatient(){
+    void shouldModefierPatient() {
         PatientResponseDTO save = patientService.ajouterPatient(dto);
         PatientRequestDTO patientRequestDTO = new PatientRequestDTO();
         patientRequestDTO.setNom("Ayoub");
         patientRequestDTO.setPrenom("Hadi");
         patientRequestDTO.setEmail("AyoubHadi@gmail.com");
         patientRequestDTO.setTelephone("037477332");
-        patientRequestDTO.setDateNaissance(LocalDate.of(2000,02,22));
+        patientRequestDTO.setDateNaissance(LocalDate.of(2000, 02, 22));
 
-        PatientResponseDTO modefier = patientService.modifierpatient(save.getId(),patientRequestDTO);
+        PatientResponseDTO modefier = patientService.modifierpatient(save.getId(), patientRequestDTO);
 
         assertNotNull(modefier);
         assertEquals("Ayoub", modefier.getNom());
@@ -53,12 +52,29 @@ class PatientServiceTest {
 
 
     }
+
     @Test
-    void obtenirTousLesPatients(){
-        List<PatientResponseDTO> rs= patientService.obtenirTousLesPatients();
+    void shouldObtenirTousLesPatients() {
+        List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
         assertNotNull(rs);
         assertFalse(rs.isEmpty());
     }
+
+    @Test
+    void shouldsupprimerPatinet() {
+        PatientResponseDTO save = patientService.ajouterPatient(dto);
+        patientService.supprimerPatinet(save.getId());
+        assertThrows(RuntimeException.class, () -> patientService.consulterPatient(save.getId()));
+
+    }
+    @Test
+    void shouldConsulterPatient(){
+        PatientResponseDTO save = patientService.ajouterPatient(dto);
+        PatientResponseDTO rs = patientService.consulterPatient(save.getId());
+        assertNotNull(rs);
+        assertEquals(save.getId(),rs.getId());
+    }
+
 
 
 
