@@ -20,17 +20,17 @@ public class DossierMedicalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
     @PutMapping("/{patientId}/diagnostic")
-    public ResponseEntity<DossierMedicalResponseDTO> ajouterDiagnostic(@PathVariable int id, @RequestBody String diagnostic){
+    public ResponseEntity<DossierMedicalResponseDTO> ajouterDiagnostic(@PathVariable long id, @RequestBody String diagnostic){
         DossierMedicalResponseDTO rs = dossierMedicalService.AjouterDiagnostic(id, diagnostic);
         return ResponseEntity.ok(rs);
     }
     @PutMapping("/{patientId}/observation")
-    public ResponseEntity<DossierMedicalResponseDTO>  ajouterObservation(@PathVariable int id , @RequestBody String observation){
+    public ResponseEntity<DossierMedicalResponseDTO>  ajouterObservation(@PathVariable long id , @RequestBody String observation){
         DossierMedicalResponseDTO rs = dossierMedicalService.AjouterObservation(id, observation);
         return ResponseEntity.ok(rs);
     }
     @GetMapping("/DossierMedical/{id}")
-    public ResponseEntity<DossierMedicalResponseDTO> Consulterdossielmedical(@PathVariable int id){
+    public ResponseEntity<DossierMedicalResponseDTO> Consulterdossielmedical(@PathVariable long id){
         DossierMedicalResponseDTO rs = dossierMedicalService.Consulterdossielmedical(id);
         return ResponseEntity.ok(rs);
     }

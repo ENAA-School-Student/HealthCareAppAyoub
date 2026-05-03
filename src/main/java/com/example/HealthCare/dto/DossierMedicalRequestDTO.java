@@ -16,5 +16,5 @@ public class DossierMedicalRequestDTO {
     @NonNull
     private LocalDate dateCreation;
     @NonNull
-    private int patientId;
+    private long patientId;
 }

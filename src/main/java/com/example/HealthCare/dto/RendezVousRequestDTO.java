@@ -1,5 +1,6 @@
 package com.example.HealthCare.dto;
 
+import com.example.HealthCare.enums.Statut;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -11,7 +12,7 @@ public class RendezVousRequestDTO {
     @NonNull
     private LocalDate dateRendezVous;
     @NonNull
-    private String statut;
+    private Statut statut;
     @NonNull
     private Long medecinId;
     @NonNull

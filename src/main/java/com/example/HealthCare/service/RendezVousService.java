@@ -2,6 +2,7 @@ package com.example.HealthCare.service;
 
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
+import com.example.HealthCare.enums.Statut;
 import com.example.HealthCare.mapper.RendezVousMapper;
 import com.example.HealthCare.model.Medecine;
 import com.example.HealthCare.model.Patient;
@@ -57,7 +58,7 @@ public class RendezVousService {
     public RendezVousResponseDTO AnnulerRendezVous(long id){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new RuntimeException("RendezVou Introvable"));
 
-        rendezVous.setStatut("Annuler");
+        rendezVous.setStatut(Statut.ANNULE);
 
         RendezVous saveAnuller = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.ToDTO(saveAnuller);
@@ -72,15 +73,15 @@ public class RendezVousService {
         return rendezVousResponseDTOS;
 
     }
-public  List<RendezVousResponseDTO> rechercherParPatient(int id){
-        List<RendezVousResponseDTO> GetResaul = new ArrayList<>();
+public  List<RendezVousResponseDTO> rechercherParPatient(long id){
+        List<RendezVousResponseDTO> GetResault = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByPatient_Id(id) ){
-            GetResaul.add(rendezVousMapper.ToDTO(rendezVous));
+            GetResault.add(rendezVousMapper.ToDTO(rendezVous));
         }
-        return GetResaul;
+        return GetResault;
 }
 
-public List<RendezVousResponseDTO> rechercherParMedecine(int id){
+public List<RendezVousResponseDTO> rechercherParMedecine(long id){
         List<RendezVousResponseDTO> GetResaul = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByMedecine_Id(id)){
             GetResaul.add(rendezVousMapper.ToDTO(rendezVous));

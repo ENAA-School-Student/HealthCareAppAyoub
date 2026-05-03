@@ -22,18 +22,18 @@ public class DossierMedicalService {
         return dossierMedicalMapper.toDTO(saveDossierMedical);
     }
 
-        public DossierMedicalResponseDTO Consulterdossielmedical(int id){
+        public DossierMedicalResponseDTO Consulterdossielmedical(long id){
         DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(id);
         return dossierMedicalMapper.toDTO(dossierMedical);
         }
 
-        public DossierMedicalResponseDTO AjouterDiagnostic(int patientId , String diagnostic){
+        public DossierMedicalResponseDTO AjouterDiagnostic(long patientId , String diagnostic){
         DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
         dossierMedical.setDiagnostic(diagnostic);
         DossierMedical save = dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(save);
         }
-        public DossierMedicalResponseDTO AjouterObservation(int patientId , String observation){
+        public DossierMedicalResponseDTO AjouterObservation(long patientId , String observation){
         DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
         dossierMedical.setObservations(observation);
         DossierMedical save = dossierMedicalRepository.save(dossierMedical);

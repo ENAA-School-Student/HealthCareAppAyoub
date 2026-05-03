@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class DossierMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
+    private long id ;
 
     private String diagnostic;
     private String observations;

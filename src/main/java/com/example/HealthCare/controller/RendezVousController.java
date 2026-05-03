@@ -39,12 +39,12 @@ public class RendezVousController
     }
 
     @GetMapping("/medecine/{id}")
-    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParMedecine(@PathVariable int id){
+    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParMedecine(@PathVariable long id){
         List<RendezVousResponseDTO> rs = rendezVousService.rechercherParMedecine(id);
         return ResponseEntity.ok(rs);
     }
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParPatient(@PathVariable int id){
+    public ResponseEntity<List<RendezVousResponseDTO>> rechercherRendezVousParPatient(@PathVariable long id){
         List<RendezVousResponseDTO> rs = rendezVousService.rechercherParPatient(id);
         return ResponseEntity.ok(rs);
     }

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class DossierMedicalResponseDTO {
-    private int id ;
+    private long id ;
     private String diagnostic;
     private String observations;
     private LocalDate dateCreation;

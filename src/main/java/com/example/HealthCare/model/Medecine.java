@@ -17,7 +17,7 @@ import java.util.List;
 public class Medecine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String nom;
     private String telephone;
