@@ -11,8 +11,8 @@ import java.time.LocalDate;
 public class RendezVousRequestDTO {
     @NonNull
     private LocalDate dateRendezVous;
-    @NonNull
-    private Statut statut;
+
+    private Statut statut = Statut.EN_ATTENTE ;
     @NonNull
     private Long medecinId;
     @NonNull

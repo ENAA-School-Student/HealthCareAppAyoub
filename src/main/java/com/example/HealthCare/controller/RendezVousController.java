@@ -18,7 +18,7 @@ public class RendezVousController
     private RendezVousService rendezVousService;
 
     @PostMapping
-    public ResponseEntity<RendezVousResponseDTO> ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO){
+    public ResponseEntity<RendezVousResponseDTO> ajouterRendezVous(@RequestBody RendezVousRequestDTO rendezVousRequestDTO){
         RendezVousResponseDTO saveRendezVous = rendezVousService.ajouterRendezVous(rendezVousRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRendezVous);
     }
