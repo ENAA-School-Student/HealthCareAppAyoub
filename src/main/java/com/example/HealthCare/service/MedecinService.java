@@ -44,9 +44,10 @@ public class MedecinService {
         return medecinMapper.ToDTO(saveUpdatedMedecine);
     }
 
-    public void supprimerMedecine(long id){
+    public Boolean supprimerMedecine(long id){
         Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new RuntimeException("Medecine Introvable"));
         medecinRepository.delete(medecine);
+        return true;
     }
 }
 

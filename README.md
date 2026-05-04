@@ -1,7 +1,7 @@
 Diagramme de Classes : 
-![img.png](img.png)
+![diagrameDeClasse.png](UML/diagrameDeClasse.png)
 Diagramme de Cas d'Utilisation :
-![img.png](UML/diagrameDeClasse.png)
+![UseCaseDiagrameHealthCare.png](UML/UseCaseDiagrameHealthCare.png)
 Diagramme de Séquence Ajouter Patient:
 ![AjouterPatient_UML.png](UML/AjouterPatient_UML.png)
 Diagramme de Séquence Rechercher Par Patient:

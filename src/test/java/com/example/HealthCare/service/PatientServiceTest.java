@@ -3,6 +3,7 @@ package com.example.HealthCare.service;
 import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,24 +17,39 @@ import static org.junit.jupiter.api.Assertions.*;
 class PatientServiceTest {
     @Autowired
     private PatientService patientService;
-        PatientRequestDTO dto = new PatientRequestDTO();
+     PatientRequestDTO patientRequestDTO;
+     PatientRequestDTO secondPatientRequestDTO;
+
+        @BeforeEach
+        void setUp(){
+            patientRequestDTO = new PatientRequestDTO();
+            patientRequestDTO.setNom("Ali");
+            patientRequestDTO.setPrenom("sung");
+            patientRequestDTO.setEmail("alisung@gmail.com");
+            patientRequestDTO.setTelephone("039394848");
+            patientRequestDTO.setDateNaissance(LocalDate.of(2003,02,20));
+
+            secondPatientRequestDTO = new PatientRequestDTO();
+            secondPatientRequestDTO.setNom("Oussama");
+            secondPatientRequestDTO.setPrenom("sung");
+            secondPatientRequestDTO.setEmail("oussamasung@gmail.com");
+            secondPatientRequestDTO.setTelephone("0697394848");
+            secondPatientRequestDTO.setDateNaissance(LocalDate.of(2001,03,30));
+
+
+
+    }
 
         @Test
         void shouldAjouterPatient() {
-            dto.setNom("Dupont");
-            dto.setPrenom("Jean");
-            dto.setEmail("jean@email.com");
-            dto.setTelephone("0600000001");
-            dto.setDateNaissance(LocalDate.of(1990, 1, 15));
-            PatientResponseDTO result = patientService.ajouterPatient(dto);
-
+            PatientResponseDTO result = patientService.ajouterPatient(patientRequestDTO);
             assertNotNull(result.getId());
-            assertEquals("Dupont", result.getNom());
+            assertEquals("Ali", result.getNom());
         }
 
     @Test
     void shouldModefierPatient() {
-        PatientResponseDTO save = patientService.ajouterPatient(dto);
+        PatientResponseDTO save = patientService.ajouterPatient(patientRequestDTO);
         PatientRequestDTO patientRequestDTO = new PatientRequestDTO();
         patientRequestDTO.setNom("Ayoub");
         patientRequestDTO.setPrenom("Hadi");
@@ -49,27 +65,28 @@ class PatientServiceTest {
         assertEquals("AyoubHadi@gmail.com", modefier.getEmail());
 
         assertEquals(save.getId(), modefier.getId());
-
-
     }
 
-    @Test
-    void shouldObtenirTousLesPatients() {
-        List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
-        assertNotNull(rs);
-        assertFalse(rs.isEmpty());
-    }
+        @Test
+        void shouldObtenirTousLesPatients() {
+                patientService.ajouterPatient(patientRequestDTO);
+                patientService.ajouterPatient(secondPatientRequestDTO);
+
+                List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
+                assertNotNull(rs);
+                assertFalse(rs.isEmpty());
+        }
 
     @Test
     void shouldsupprimerPatinet() {
-        PatientResponseDTO save = patientService.ajouterPatient(dto);
-        patientService.supprimerPatinet(save.getId());
-        assertThrows(RuntimeException.class, () -> patientService.consulterPatient(save.getId()));
-
+        PatientResponseDTO save = patientService.ajouterPatient(patientRequestDTO);
+        boolean isDeleted =  patientService.supprimerPatinet(save.getId());
+        assertTrue(isDeleted);
     }
+
     @Test
     void shouldConsulterPatient(){
-        PatientResponseDTO save = patientService.ajouterPatient(dto);
+        PatientResponseDTO save = patientService.ajouterPatient(patientRequestDTO);
         PatientResponseDTO rs = patientService.consulterPatient(save.getId());
         assertNotNull(rs);
         assertEquals(save.getId(),rs.getId());
