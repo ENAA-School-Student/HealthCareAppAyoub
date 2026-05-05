@@ -1,5 +1,6 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.Exceptions.ResourceNotFoundException;
 import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.mapper.PatientMapper;
@@ -33,7 +34,7 @@ public class PatientService {
 return patientResponseDTOS;
     }
     public PatientResponseDTO modifierpatient(Long id, PatientRequestDTO patientRequestDTO){
-        Patient patient = patientRepository.findById(id).orElseThrow(()->new RuntimeException("Patient introvable"));
+        Patient patient = patientRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Patient Not found with id  :"+id));
 
         patient.setNom(patientRequestDTO.getNom());
         patient.setPrenom(patientRequestDTO.getPrenom());
@@ -46,13 +47,13 @@ return patientResponseDTOS;
     }
 
         public Boolean supprimerPatinet(Long id){
-        Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Patient Introvable"));
+        Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         patientRepository.delete(patient);
         return true;
     }
 
     public PatientResponseDTO consulterPatient(Long id){
-        Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         return patientMapper.toDTO(patient);
     }
 

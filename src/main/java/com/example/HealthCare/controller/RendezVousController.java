@@ -2,6 +2,7 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
+import com.example.HealthCare.repository.RendezVousRepository;
 import com.example.HealthCare.service.RendezVousService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,5 +49,10 @@ public class RendezVousController
         List<RendezVousResponseDTO> rs = rendezVousService.rechercherParPatient(id);
         return ResponseEntity.ok(rs);
     }
+    @GetMapping("/getALlrendezVous")
+    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous(){
+        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());
+    }
+
 
 }

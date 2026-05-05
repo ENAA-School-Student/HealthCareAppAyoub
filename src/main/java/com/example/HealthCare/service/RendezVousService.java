@@ -1,5 +1,6 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.Exceptions.ResourceNotFoundException;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.enums.Statut;
@@ -13,6 +14,7 @@ import com.example.HealthCare.repository.RendezVousRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +30,11 @@ public class RendezVousService {
     @Autowired
     PatientRepository patientRepository;
 
+
     public RendezVousResponseDTO ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO)
     {
-        Medecine medecin = medecinRepository.findById(rendezVousRequestDTO.getMedecinId()).orElseThrow(() -> new RuntimeException("Medecin not found"));
-        Patient patient = patientRepository.findById(rendezVousRequestDTO.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
+        Medecine medecin = medecinRepository.findById(rendezVousRequestDTO.getMedecinId()).orElseThrow(() -> new ResourceNotFoundException("Medecin Not found "));
+        Patient patient = patientRepository.findById(rendezVousRequestDTO.getPatientId()).orElseThrow(() -> new ResourceNotFoundException("Patient Not found "));
 
         RendezVous rendezVous = rendezVousMapper.ToEntity(rendezVousRequestDTO);
         rendezVous.setMedecine(medecin);
@@ -43,9 +46,9 @@ public class RendezVousService {
     }
 
     public RendezVousResponseDTO modifieRendezVous(Long id, RendezVousRequestDTO rendezVousRequestDTO){
-        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new RuntimeException("RendezVous Introvable"));
-        Medecine medecine = medecinRepository.findById(id).orElseThrow(()->new RuntimeException("Not found"));
-        Patient patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
+        Medecine medecine = medecinRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("medecine Not found with id  :"+id));
+        Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         rendezVous.setMedecine(medecine);
         rendezVous.setPatient(patient);
         rendezVous.setStatut(rendezVousRequestDTO.getStatut());
@@ -56,7 +59,7 @@ public class RendezVousService {
     }
 
     public RendezVousResponseDTO AnnulerRendezVous(long id){
-        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new RuntimeException("RendezVou Introvable"));
+        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
 
         rendezVous.setStatut(Statut.ANNULE);
 
@@ -88,5 +91,21 @@ public List<RendezVousResponseDTO> rechercherParMedecine(long id){
         }
         return GetResaul;
 }
+
+public List<RendezVousResponseDTO> getAllrendezVousParUnDate(LocalDate date){
+       return rendezVousRepository.rendezVousPourUnmedecinParUnDate(date)
+        .stream()
+               .map(renderVous -> rendezVousMapper.ToDTO(renderVous)
+               )
+               .toList();
+}
+
+public List<RendezVousResponseDTO> getallPatientRendzeVous(){
+        return rendezVousRepository.patietnRendezVous()
+                .stream()
+                .map(rendzevous -> rendezVousMapper.ToDTO(rendzevous)).toList();
+}
+
+
 
 }

@@ -10,4 +10,5 @@ import org.mapstruct.Mapper;
 public interface RendezVousMapper {
     RendezVous ToEntity(RendezVousRequestDTO rendezVousRequestDTO);
     RendezVousResponseDTO ToDTO(RendezVous rendezVous);
+
 }

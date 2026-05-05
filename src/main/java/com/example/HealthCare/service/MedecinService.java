@@ -1,5 +1,6 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.Exceptions.ResourceNotFoundException;
 import com.example.HealthCare.dto.MedecinRequestDTO;
 import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
@@ -34,7 +35,7 @@ public class MedecinService {
 
 
     public MedecinResponseDTO modifieMedeceine(Long id , MedecinRequestDTO medecinRequestDTO){
-        Medecine medecine = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("Medecine Introvable"));
+        Medecine medecine = medecinRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Medecin Not found with id  :"+id));
 
         medecine.setNom(medecinRequestDTO.getNom());
         medecine.setEmail(medecinRequestDTO.getEmail());
@@ -45,7 +46,7 @@ public class MedecinService {
     }
 
     public Boolean supprimerMedecine(long id){
-        Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new RuntimeException("Medecine Introvable"));
+        Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Medecin Not found with id  :"+id));
         medecinRepository.delete(medecine);
         return true;
     }
