@@ -19,6 +19,7 @@ public class RendezVous {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "date_rendez_vous")
     private LocalDate dateRendezVous;
     @Column(name="statut")
     @Enumerated(EnumType.STRING)

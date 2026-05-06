@@ -50,5 +50,6 @@ public class MedecinService {
         medecinRepository.delete(medecine);
         return true;
     }
+
 }
 

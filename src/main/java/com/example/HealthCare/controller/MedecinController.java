@@ -40,4 +40,5 @@ public class MedecinController {
         medecinService.supprimerMedecine(id);
         return ResponseEntity.noContent().build();
     }
+
 }

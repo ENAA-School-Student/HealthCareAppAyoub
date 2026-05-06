@@ -1,5 +1,7 @@
 package com.example.HealthCare.controller;
 
+import com.example.HealthCare.dto.MedecinResponseDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.repository.RendezVousRepository;
@@ -49,10 +51,21 @@ public class RendezVousController
         List<RendezVousResponseDTO> rs = rendezVousService.rechercherParPatient(id);
         return ResponseEntity.ok(rs);
     }
-    @GetMapping("/getALlrendezVous")
-    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous(){
-        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());
-    }
-
+//    @GetMapping("/getALlrendezVous")
+//    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous(){
+//        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());
+////    }
+//    @GetMapping("/getAllMedecinRendesVous")
+//    public ResponseEntity<List<MedecinResponseDTO>> getAllmedeccenRendezVous(){
+//        return ResponseEntity.ok(rendezVousService.getALLMedecineRendezVouus());
+//    }
+//    @GetMapping("/getAllrendevouGreaterTHAN")
+//  public ResponseEntity<List<PatientResponseDTO>> getAllpatientGreaterThan(@RequestParam int number){
+//        return ResponseEntity.ok(rendezVousService.getALlRendezVousGretaerTHAN(number));
+//    }
+//    @GetMapping("/rendezVouAfterToday")
+//    public ResponseEntity<List<RendezVousResponseDTO>> getALLRendezvouAftertoday(){
+//        return ResponseEntity.ok(rendezVousService.getAllRendezVousAfterToday());
+//    }
 
 }

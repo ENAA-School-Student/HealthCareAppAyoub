@@ -8,6 +8,7 @@ import com.example.HealthCare.repository.DossierMedicalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class DossierMedicalService {
     @Autowired
@@ -39,6 +40,12 @@ public class DossierMedicalService {
         DossierMedical save = dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(save);
         }
+
+//    public List<DossierMedicalResponseDTO> getDossierMedecalWithPatietnInfoes(){
+//        return dossierMedicalRepository.getDossierMedecalWithPatietnInfoes()
+//                .stream()
+//                .map(dossierMedecal -> dossierMedicalMapper.toDTO(dossierMedecal)).toList();
+//    }
 
 
 

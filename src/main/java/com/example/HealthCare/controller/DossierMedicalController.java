@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/DossierMedical")
 public class DossierMedicalController {
@@ -34,6 +36,10 @@ public class DossierMedicalController {
         DossierMedicalResponseDTO rs = dossierMedicalService.Consulterdossielmedical(id);
         return ResponseEntity.ok(rs);
     }
+//    @GetMapping("/dossierWithPatietns")
+//    public ResponseEntity<List<DossierMedicalResponseDTO>> getAllPatientifoesFromDossier(){
+//        return ResponseEntity.ok(dossierMedicalService.getDossierMedecalWithPatietnInfoes());
+//    }
 
 
 

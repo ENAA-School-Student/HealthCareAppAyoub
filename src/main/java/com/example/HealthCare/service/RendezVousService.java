@@ -1,9 +1,11 @@
 package com.example.HealthCare.service;
 
 import com.example.HealthCare.Exceptions.ResourceNotFoundException;
-import com.example.HealthCare.dto.RendezVousRequestDTO;
-import com.example.HealthCare.dto.RendezVousResponseDTO;
+import com.example.HealthCare.dto.*;
 import com.example.HealthCare.enums.Statut;
+import com.example.HealthCare.mapper.DossierMedicalMapper;
+import com.example.HealthCare.mapper.MedecinMapper;
+import com.example.HealthCare.mapper.PatientMapper;
 import com.example.HealthCare.mapper.RendezVousMapper;
 import com.example.HealthCare.model.Medecine;
 import com.example.HealthCare.model.Patient;
@@ -29,6 +31,12 @@ public class RendezVousService {
     MedecinRepository medecinRepository;
     @Autowired
     PatientRepository patientRepository;
+//    @Autowired
+//    private MedecinMapper medecinMapper;
+//    @Autowired
+//    private PatientMapper patientMapper;
+    @Autowired
+    private DossierMedicalMapper dossierMedicalMapper;
 
 
     public RendezVousResponseDTO ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO)
@@ -92,19 +100,55 @@ public List<RendezVousResponseDTO> rechercherParMedecine(long id){
         return GetResaul;
 }
 
-public List<RendezVousResponseDTO> getAllrendezVousParUnDate(LocalDate date){
-       return rendezVousRepository.rendezVousPourUnmedecinParUnDate(date)
-        .stream()
-               .map(renderVous -> rendezVousMapper.ToDTO(renderVous)
-               )
-               .toList();
-}
 
-public List<RendezVousResponseDTO> getallPatientRendzeVous(){
-        return rendezVousRepository.patietnRendezVous()
-                .stream()
-                .map(rendzevous -> rendezVousMapper.ToDTO(rendzevous)).toList();
-}
+//public List<RendezVousResponseDTO> rendezVousParStatut(String statut){
+//        return rendezVousRepository.findAll()
+//                .stream()
+//                .filter(rendezvous -> rendezvous.getStatut().name().equals(statut))
+//                .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
+//}
+
+
+
+
+
+
+
+
+
+
+
+//public List<RendezVousResponseDTO> getAllrendezVousParUnDate(LocalDate date){
+//       return rendezVousRepository.rendezVousPourUnmedecinParUnDate(date)
+//        .stream()
+//               .map(renderVous -> rendezVousMapper.ToDTO(renderVous)
+//               )
+//               .toList();
+//}
+//
+//public List<RendezVousResponseDTO> getallPatientRendzeVous(){
+//        return rendezVousRepository.patietnRendezVous()
+//                .stream()
+//                .map(rendzevous -> rendezVousMapper.ToDTO(rendzevous)).toList();
+//}
+//
+//public List<MedecinResponseDTO> getALLMedecineRendezVouus(){
+//        return rendezVousRepository.allRendezvVousDeUnmedecein()
+//                .stream()
+//                .map(medcienrendezVous -> medecinMapper.ToDTO(medcienrendezVous)).toList();
+//}
+//
+//public List<PatientResponseDTO> getALlRendezVousGretaerTHAN(int number){
+//        return rendezVousRepository.getAllPatietRendezVousGreaterThan(number)
+//                .stream()
+//                .map(patient -> patientMapper.toDTO(patient)).toList();
+//}
+//
+//public List<RendezVousResponseDTO> getAllRendezVousAfterToday(){
+//        return rendezVousRepository.rendez_vousapreraujourdhui()
+//                .stream()
+//                .map(rendezvou -> rendezVousMapper.ToDTO(rendezvou)).toList();
+//}
 
 
 
