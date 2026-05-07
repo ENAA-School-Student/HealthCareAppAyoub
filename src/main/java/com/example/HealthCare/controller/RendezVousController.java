@@ -4,6 +4,7 @@ import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
+import com.example.HealthCare.enums.Statut;
 import com.example.HealthCare.repository.RendezVousRepository;
 import com.example.HealthCare.service.RendezVousService;
 import jakarta.validation.Valid;
@@ -58,6 +59,15 @@ public class RendezVousController
     @GetMapping("/RendezVousParMedecinId")
     public ResponseEntity<List<RendezVousResponseDTO>> getMedecineRendezVous(@RequestParam @Valid long id){
         return ResponseEntity.ok(rendezVousService.findRendzeVousByMedecinID(id));
+    }
+
+    @GetMapping("/findByStatut")
+    public  ResponseEntity<List<RendezVousResponseDTO>> findByStatut(@RequestParam @Valid Statut statut){
+        return ResponseEntity.ok(rendezVousService.rendezVousParStatut(statut));
+    }
+    @PutMapping("/EditRendezVousStatut")
+    public ResponseEntity<RendezVousResponseDTO> modifieRendezVousStatut(@RequestParam Long id , @RequestParam Statut statut){
+        return ResponseEntity.ok(rendezVousService.modifieRendezVousStatut(id,statut));
     }
 
 //    @GetMapping("/getALlrendezVous")

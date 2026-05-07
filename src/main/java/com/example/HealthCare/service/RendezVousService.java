@@ -55,8 +55,8 @@ public class RendezVousService {
 
     public RendezVousResponseDTO modifieRendezVous(Long id, RendezVousRequestDTO rendezVousRequestDTO){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
-        Medecine medecine = medecinRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("medecine Not found with id  :"+id));
-        Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
+        Medecine medecine = medecinRepository.findById(rendezVousRequestDTO.getMedecinId()).orElseThrow(()->new ResourceNotFoundException("medecine Not found with id  :"+id));
+        Patient patient = patientRepository.findById(rendezVousRequestDTO.getPatientId()).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         rendezVous.setMedecine(medecine);
         rendezVous.setPatient(patient);
         rendezVous.setStatut(rendezVousRequestDTO.getStatut());
@@ -65,6 +65,15 @@ public class RendezVousService {
         RendezVous saveUpdatedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.ToDTO(saveUpdatedRendezVous);
     }
+
+    public RendezVousResponseDTO modifieRendezVousStatut(Long id , Statut statut){
+        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
+        rendezVous.setStatut(statut);
+
+        RendezVous save = rendezVousRepository.save(rendezVous);
+        return rendezVousMapper.ToDTO(save);
+    }
+
 
     public RendezVousResponseDTO AnnulerRendezVous(long id){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
