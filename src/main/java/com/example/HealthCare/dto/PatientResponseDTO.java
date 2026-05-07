@@ -15,6 +15,4 @@ public class PatientResponseDTO {
     private String email;
     private String telephone;
     private LocalDate dateNaissance;
-    private List<RendezVousResponseDTO> rendezVousList;
-    private DossierMedicalResponseDTO dossierMedicalResponseDTO;
 }

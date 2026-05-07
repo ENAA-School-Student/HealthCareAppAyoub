@@ -13,4 +13,5 @@ public interface MedecinRepository extends JpaRepository<Medecine,Long> {
     @Query("select m from Medecine m where m.specialite = :specialite")
     List<Medecine> findMedcineByspecialite(String specialite);
 
+
 }

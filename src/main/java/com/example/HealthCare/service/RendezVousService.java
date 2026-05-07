@@ -101,12 +101,19 @@ public List<RendezVousResponseDTO> rechercherParMedecine(long id){
 }
 
 
-//public List<RendezVousResponseDTO> rendezVousParStatut(String statut){
-//        return rendezVousRepository.findAll()
-//                .stream()
-//                .filter(rendezvous -> rendezvous.getStatut().name().equals(statut))
-//                .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
-//}
+public List<RendezVousResponseDTO> rendezVousParStatut(Statut statut){
+        return rendezVousRepository.findAll()
+                .stream()
+                .filter(rendezvous -> rendezvous.getStatut().equals(statut))
+                .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
+}
+
+public List<RendezVousResponseDTO> findRendzeVousByMedecinID(long id){
+        return rendezVousRepository.findRendezVousDeUnMedecine(id)
+                .stream()
+                .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
+
+}
 
 
 

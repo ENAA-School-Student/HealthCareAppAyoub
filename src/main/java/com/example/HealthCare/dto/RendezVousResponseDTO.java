@@ -13,7 +13,6 @@ public class RendezVousResponseDTO {
     private long id;
     private LocalDate dateRendezVous;
     private Statut statut;
-    private Medecine medecine;
-    private Patient patient;
-
+    private NeastedMedecineResponceDTO medecine;
+    private NeastedPatietnResponceDTO patient;
 }

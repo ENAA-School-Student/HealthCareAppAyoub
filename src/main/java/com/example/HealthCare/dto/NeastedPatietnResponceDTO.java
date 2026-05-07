@@ -1,16 +1,14 @@
 package com.example.HealthCare.dto;
 
-import com.example.HealthCare.model.RendezVous;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 @Getter
 @Setter
-public class MedecinResponseDTO {
+
+public class NeastedPatietnResponceDTO {
     private long id;
     private String nom;
-    private String telephone;
+    private String prenom;
     private String email;
-    private String specialite;
 }

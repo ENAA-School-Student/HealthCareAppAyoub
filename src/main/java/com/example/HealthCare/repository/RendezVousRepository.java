@@ -22,6 +22,11 @@ public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
 
     List<RendezVousResponseDTO> findByStatut(Statut statut);
 
+
+    @Query("select r from RendezVous r JOIN r.medecine m where m.id = :id")
+    List<RendezVous> findRendezVousDeUnMedecine(long id);
+
+
 //    @Query("select r from RendezVous r where r.dateRendezVous = :date")
 //    List<RendezVous> rendezVousPourUnmedecinParUnDate(@Param("date") LocalDate date);
 //    @Query(value ="select r.* FROM rendez_vous r LEFT JOIN patient p ON p.id = r.patient_id ",nativeQuery = true)

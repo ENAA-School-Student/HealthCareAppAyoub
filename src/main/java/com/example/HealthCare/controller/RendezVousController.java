@@ -6,11 +6,13 @@ import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.repository.RendezVousRepository;
 import com.example.HealthCare.service.RendezVousService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 
 @RestController
@@ -51,6 +53,13 @@ public class RendezVousController
         List<RendezVousResponseDTO> rs = rendezVousService.rechercherParPatient(id);
         return ResponseEntity.ok(rs);
     }
+
+
+    @GetMapping("/RendezVousParMedecinId")
+    public ResponseEntity<List<RendezVousResponseDTO>> getMedecineRendezVous(@RequestParam @Valid long id){
+        return ResponseEntity.ok(rendezVousService.findRendzeVousByMedecinID(id));
+    }
+
 //    @GetMapping("/getALlrendezVous")
 //    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous(){
 //        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());

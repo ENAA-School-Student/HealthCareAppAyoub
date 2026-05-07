@@ -30,7 +30,7 @@ public class MedecinController {
     }
 
     @PutMapping("/modifier/{id}")
-    public ResponseEntity<MedecinResponseDTO> modifierMedecine(@PathVariable long id , @RequestBody MedecinRequestDTO medecinRequestDTO){
+    public ResponseEntity<MedecinResponseDTO> modifierMedecine(@PathVariable @Valid long id , @RequestBody MedecinRequestDTO medecinRequestDTO){
         MedecinResponseDTO rs = medecinService.modifieMedeceine(id, medecinRequestDTO);
         return ResponseEntity.ok(rs);
     }
