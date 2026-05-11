@@ -23,5 +23,4 @@ private String username;
 private String email;
 @NonNull
 private String password;
-
 }
