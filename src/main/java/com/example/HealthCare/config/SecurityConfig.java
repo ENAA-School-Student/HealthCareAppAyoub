@@ -25,12 +25,14 @@ public class SecurityConfig {
                                     "/api/users/register",
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**").permitAll()
-                            .requestMatchers("/patients/**").authenticated()
+                            .requestMatchers("/api/patients/**").authenticated()
                             .requestMatchers("/medecins/**").authenticated()
                             .requestMatchers("/rendezvous/**").authenticated()
                             .requestMatchers("/dossiers/**").authenticated()
                             .anyRequest().authenticated()
-                    );
+
+                    )
+.formLogin(form -> form.permitAll());
             return http.build();
         }
 }
