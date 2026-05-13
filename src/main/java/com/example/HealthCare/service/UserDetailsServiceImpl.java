@@ -13,22 +13,20 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService     {
+public class UserDetailsServiceImpl {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     public UserDetailsServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder=passwordEncoder;
-
         this.userMapper = userMapper;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    public UserResponceDTO findByuserName(String username) throws UsernameNotFoundException {
+        return userMapper.ToDTO(userRepository.findByUsername(username));
     }
+
     public UserResponceDTO saveUser(UserRequestDTO userdto){
     User user = new User();
     user.setUsername(userdto.getUsername());

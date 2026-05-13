@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class UserController {
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     public UserController(UserDetailsServiceImpl userDetailsService){
         this.userDetailsService=userDetailsService;
     }
     @PostMapping("/register")
     public ResponseEntity<UserResponceDTO> register(@RequestBody UserRequestDTO user){
         return ResponseEntity.ok(userDetailsService.saveUser(user));
+    }
+    @GetMapping("/userByName")
+    public ResponseEntity<UserResponceDTO> findByUserName(@RequestParam String username){
+        return ResponseEntity.ok(userDetailsService.findByuserName(username));
     }
 }

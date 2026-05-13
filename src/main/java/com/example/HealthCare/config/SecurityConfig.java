@@ -17,20 +17,6 @@ public class SecurityConfig {
     }
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                    .csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers( "/",
-                                    "/auth/**",
-                                    "/api/users/register",
-                                    "/swagger-ui/**",
-                                    "/v3/api-docs/**").permitAll()
-                            .requestMatchers("/patients/**").authenticated()
-                            .requestMatchers("/medecins/**").authenticated()
-                            .requestMatchers("/rendezvous/**").authenticated()
-                            .requestMatchers("/dossiers/**").authenticated()
-                            .anyRequest().authenticated()
-                    );
-            return http.build();
+          return null;
         }
 }
