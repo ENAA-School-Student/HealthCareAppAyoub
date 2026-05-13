@@ -24,7 +24,8 @@ public class UserDetailsServiceImpl {
     }
 
     public UserResponceDTO findByuserName(String username) throws UsernameNotFoundException {
-        return userMapper.ToDTO(userRepository.findByUsername(username));
+        User userExit = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("User "+username+" not found"));
+        return userMapper.ToDTO(userExit);
     }
 
     public UserResponceDTO saveUser(UserRequestDTO userdto){
