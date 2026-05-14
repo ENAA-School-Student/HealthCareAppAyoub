@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("User "+username+" not found"));
+        User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User "+username+" not found"));
         return org.springframework.security.core.userdetails.User
                 .builder()
                 .username(user.getUsername())
@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
     }
     public UserResponceDTO getUser(String username){
-        User user = userRepository.findByUsername(username).orElseThrow(()-> new ResourceNotFoundException("User "+username +" not found"));
+        User user = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User "+username +" not found"));
         return userMapper.ToDTO(user);
     }
 
