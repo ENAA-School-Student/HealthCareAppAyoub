@@ -26,4 +26,8 @@ public class ApplicationConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+
+    }
 }
