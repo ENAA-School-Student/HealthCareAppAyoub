@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -24,15 +25,18 @@ private static final String SECRET_KEY ="03c6818e2605d0d551e3465c8d9dd629b8cdb95
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    public String generateToken
-            (Map<String,Object> extractClaims,
-             UserDetails userDetails){
+    public String generateToken(UserDetails userDetails)
+    {
+        return  generateToken(new HashMap<>(),userDetails);
+    }
+    public String generateToken(Map<String,Object> extractClaims, UserDetails userDetails)
+    {
         return  Jwts
                 .builder()
                 .setClaims(extractClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration((new Date(System.currentTimeMillis() + 1000 * 60 * 24)))
+                .setExpiration((new Date(System.currentTimeMillis() + 1000 * 60 * 60  * 24)))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
