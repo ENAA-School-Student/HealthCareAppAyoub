@@ -5,6 +5,9 @@ import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +46,13 @@ public class PatientController {
         return ResponseEntity.ok(rs);
     }
 
+    @GetMapping("/getPatients")
+    public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
+            @RequestParam int pageNumber,
+            @RequestParam int pageSize){
+        Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation
+                (PageRequest.of(pageNumber,pageSize,Sort.by("nom").ascending()));
+        return ResponseEntity.ok(rs);
+    }
 
 }
