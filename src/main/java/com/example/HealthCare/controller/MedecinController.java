@@ -46,14 +46,15 @@ public class MedecinController {
 
     @GetMapping
     public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
-            @RequestParam(required = false , defaultValue = "1") int pageNumber ,
-            @RequestParam(required = false, defaultValue = "5") int pageSize,
+            @RequestParam( defaultValue = "1") int pageNumber ,
+            @RequestParam( defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "specialite") String sortBy,
             @RequestParam String sortDir )
     {
         Sort sort = null;
         if(sortDir.equalsIgnoreCase("ASC"))
-        {sort = Sort.by(sortBy).ascending();}else{sort =Sort.by(sortBy).descending();}
+        {sort = Sort.by(sortBy).ascending();}
+        else{sort =Sort.by(sortBy).descending();}
     {
         Page<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecinPagination(
                 PageRequest.of(pageNumber-1,pageSize,sort));

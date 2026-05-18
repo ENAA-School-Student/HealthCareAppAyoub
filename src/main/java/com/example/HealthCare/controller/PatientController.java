@@ -48,8 +48,8 @@ public class PatientController {
 
     @GetMapping("/getPatients")
     public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
-            @RequestParam int pageNumber,
-            @RequestParam int pageSize,
+            @RequestParam (defaultValue = "1") int pageNumber,
+            @RequestParam (defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "nom") String sortBy,
             @RequestParam (defaultValue = "asc")String sortDir
     ){
