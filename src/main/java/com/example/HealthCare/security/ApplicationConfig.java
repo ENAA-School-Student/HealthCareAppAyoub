@@ -28,6 +28,6 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-
+return null;
     }
 }

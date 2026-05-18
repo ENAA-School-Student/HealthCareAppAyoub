@@ -5,6 +5,9 @@ import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +42,15 @@ public class MedecinController {
     public ResponseEntity<Void> supprimerMedecine( @PathVariable long id){
         medecinService.supprimerMedecine(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
+            @RequestParam(required = false , defaultValue = "1") int pageNumber ,
+            @RequestParam(required = false, defaultValue = "5") int pageSize ) {
+        Page<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecinPagination(
+                PageRequest.of(pageNumber-1,pageSize,Sort.by("nom").ascending()));
+        return ResponseEntity.ok(rs);
     }
 
 }
