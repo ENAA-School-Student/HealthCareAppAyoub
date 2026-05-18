@@ -48,7 +48,7 @@ public class MedecinController {
     public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
             @RequestParam(required = false , defaultValue = "1") int pageNumber ,
             @RequestParam(required = false, defaultValue = "5") int pageSize,
-            @RequestParam String sortBy,
+            @RequestParam (defaultValue = "specialite") String sortBy,
             @RequestParam String sortDir )
     {
         Sort sort = null;
