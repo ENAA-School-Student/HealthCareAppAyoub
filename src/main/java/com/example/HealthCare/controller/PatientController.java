@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @PreAuthorize("hasAuthority('medecin:dossiers_medicaux:read')")
     @PostMapping
     public ResponseEntity<PatientResponseDTO> ajouterPatient(@RequestBody @Valid PatientRequestDTO dto){
         PatientResponseDTO savePatient = patientService.ajouterPatient(dto);

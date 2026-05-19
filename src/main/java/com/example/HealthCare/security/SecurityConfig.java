@@ -30,7 +30,6 @@ public class SecurityConfig {
                         request -> request
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/medecine/**").hasAnyRole(ADMIN.name(), MEDECIN.name())
-
                                 .requestMatchers("/api/patient/**").hasAnyRole(ADMIN.name(), PATIENT.name())
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
