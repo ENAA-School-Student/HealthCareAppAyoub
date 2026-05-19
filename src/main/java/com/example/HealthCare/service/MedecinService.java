@@ -9,6 +9,8 @@ import com.example.HealthCare.repository.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,10 @@ public class MedecinService {
         Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Medecin Not found with id  :"+id));
         medecinRepository.delete(medecine);
         return true;
+    }
+    public Page<MedecinResponseDTO> obtenirTousLesMedecinPagination(Pageable pageable) {
+        return medecinRepository.findAll(pageable)
+                .map(medecin -> medecinMapper.ToDTO(medecin));
     }
 
 }

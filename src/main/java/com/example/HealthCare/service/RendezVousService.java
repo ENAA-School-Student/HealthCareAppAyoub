@@ -14,6 +14,8 @@ import com.example.HealthCare.repository.MedecinRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -122,6 +124,11 @@ public List<RendezVousResponseDTO> findRendzeVousByMedecinID(long id){
                 .stream()
                 .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
 
+}
+
+public Page<RendezVousResponseDTO> obtenirTousLesRendezVousPagination(Pageable pageable){
+        return rendezVousRepository.findAll(pageable)
+                .map(rendezvous -> rendezVousMapper.ToDTO(rendezvous));
 }
 
 
