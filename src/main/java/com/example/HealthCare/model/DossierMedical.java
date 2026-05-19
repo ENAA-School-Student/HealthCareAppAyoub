@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "dossier_medical")
 public class DossierMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

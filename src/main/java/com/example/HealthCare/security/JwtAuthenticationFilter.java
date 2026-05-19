@@ -20,6 +20,11 @@
     public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
+
+        @Override
+        protected boolean shouldNotFilter(HttpServletRequest request) {
+            return request.getServletPath().startsWith("/api/auth/");
+        }
         @Override
         protected void doFilterInternal(
                 @NonNull HttpServletRequest request,

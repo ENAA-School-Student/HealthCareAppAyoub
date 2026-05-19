@@ -25,7 +25,7 @@ public class PatientController {
         PatientResponseDTO savePatient = patientService.ajouterPatient(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savePatient);
     }
-    @GetMapping
+    @GetMapping("/getAllPatietnAtOnce")
     public ResponseEntity<List<PatientResponseDTO>> obtenirTousLesPatients(){
     List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
     return ResponseEntity.ok(rs);
@@ -46,7 +46,7 @@ public class PatientController {
         return ResponseEntity.ok(rs);
     }
 
-    @GetMapping("/getPatients")
+    @GetMapping("/getPatientsPagination")
     public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
             @RequestParam (defaultValue = "1") int pageNumber,
             @RequestParam (defaultValue = "5") int pageSize,

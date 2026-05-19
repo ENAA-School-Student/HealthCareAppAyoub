@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "rendez_vous")
 public class RendezVous {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

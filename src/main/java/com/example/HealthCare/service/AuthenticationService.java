@@ -1,7 +1,9 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.Exceptions.ResourceNotFoundException;
 import com.example.HealthCare.dto.AuthenticationRequestDTO;
 import com.example.HealthCare.dto.AuthenticationResponceDTO;
+import com.example.HealthCare.dto.RegisterDTO;
 import com.example.HealthCare.enums.Role;
 import com.example.HealthCare.mapper.UserMapper;
 import com.example.HealthCare.model.User;
@@ -46,29 +48,34 @@ public class AuthenticationService implements UserDetailsService {
         return userMapper.ToDTO(user);
     }
 
-    public AuthenticationResponceDTO saveUser(AuthenticationRequestDTO userdto){
-        var user = userMapper.ToEntity(userdto);
-        user.setUsername(userdto.getUsername());
-        user.setEmail(userdto.getEmail());
-        user.setPassword(passwordEncoder.encode(userdto.getPassword()));
-        user.setRole(Role.USER);
+    public AuthenticationResponceDTO saveUser(RegisterDTO registerDTO){
+        if (userRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists!");
+        }
+
+        var user = userMapper.ToEntity(registerDTO);
+        user.setUsername(registerDTO.getUsername());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        user.setRole(registerDTO.getRole());
         userRepository.save(user);
 
     var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
+                .username(user.getUsername())
+                .role(user.getRole().name())
                 .token(jwtToken)
                 .build();
     }
     public AuthenticationResponceDTO login( AuthenticationRequestDTO request){
-         authenticationManager.authenticate(
-                 new UsernamePasswordAuthenticationToken(
-                         request.getUsername(),
-                         request.getPassword()
-                 )
-         );
-         var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        // the user is autheticated here:
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        // if they are correct this happen ....
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(()-> new ResourceNotFoundException("User not found !!!"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
+                .username(user.getUsername())
+                .role(user.getRole().name())
                 .token(jwtToken)
                 .build();
     }

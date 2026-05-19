@@ -1,11 +1,8 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.dto.MedecinResponseDTO;
-import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.enums.Statut;
-import com.example.HealthCare.repository.RendezVousRepository;
 import com.example.HealthCare.service.RendezVousService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
-import java.lang.annotation.Retention;
 import java.util.List;
 
 @RestController
@@ -82,7 +77,7 @@ public class RendezVousController {
     public ResponseEntity<Page<RendezVousResponseDTO>> obtenirTousLesRendezVousPagination
             (@RequestParam(defaultValue = "1") int pageNumber,
              @RequestParam(defaultValue = "5") int pageSize,
-             @RequestParam(defaultValue = "dateRendezVous") String sort
+             @RequestParam(defaultValue = "dateRendezVous") String sortBy,
              @RequestParam(defaultValue = "asc") String sortDer
             ) {
         Sort sort = null;
@@ -91,7 +86,6 @@ public class RendezVousController {
         } else {
             sort = Sort.by(sortBy).descending();
         }
-
         Page<RendezVousResponseDTO>
                 rs = rendezVousService.obtenirTousLesRendezVousPagination(PageRequest.of(pageNumber - 1, pageSize, sort));
         return ResponseEntity.ok(rs);

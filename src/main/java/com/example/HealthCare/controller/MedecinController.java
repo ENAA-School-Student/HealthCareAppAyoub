@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class MedecinController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveMedecin);
     }
 
-    @GetMapping
+    @GetMapping("/getMedecineAtOnce")
     public ResponseEntity<List<MedecinResponseDTO>> obtenirTousLesMedecin() {
       List<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecin();
        return ResponseEntity.ok(rs);
@@ -44,7 +45,7 @@ public class MedecinController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/getMedecinePagination")
     public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
             @RequestParam( defaultValue = "1") int pageNumber ,
             @RequestParam( defaultValue = "5") int pageSize,
