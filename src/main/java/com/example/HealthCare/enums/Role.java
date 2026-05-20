@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.HealthCare.enums.Permission.*;
 @RequiredArgsConstructor
@@ -14,19 +15,23 @@ public enum Role {
             Set.of (
                     //ADMIN
                     ADMIN_READ_patient,
+                    ADMIN_READ_medecin,
                     ADMIN_READ_rendez_vous,
                     ADMIN_READ_dossiers_medicaux,
 
                     ADMIN_CREATE_patient,
+                    ADMIN_CREATE_medecin,
                     ADMIN_CREATE_dossiers_medicaux,
+                    ADMIN_CREATE_diagnostic,
                     ADMIN_CREATE_rendez_vous,
 
                     ADMIN_UPDATE_patient,
-                    ADMIN_UPDATE_dossiers_medicaux,
+                    ADMIN_UPDATE_medecin,
+                    ADMIN_UPDATE_observations,
                     ADMIN_UPDATE_rendez_vous,
 
                     ADMIN_DELETE_patient,
-                    ADMIN_DELETE_rendez_vous,
+                    ADMIN_DELETE_medecin,
                     ADMIN_DELETE_dossiers_medicaux,
 
 
@@ -40,6 +45,7 @@ public enum Role {
                     //MEDECIN
 
                     MEDECIN_CRETAE_diagnostic,
+                    MEDECIN_CREATE_dossiers_medicaux,
                     MEDECIN_READ_rendez_vous,
                     MEDECIN_READ_dossiers_medicaux,
                     MEDECIN_UPDATE_observations
@@ -67,7 +73,7 @@ public enum Role {
         var authereties = getPermissions()
                 .stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .toList();
+                .collect(Collectors.toList());
         authereties.add( new SimpleGrantedAuthority("ROLE_"+this.name()));
         return authereties;
     }
