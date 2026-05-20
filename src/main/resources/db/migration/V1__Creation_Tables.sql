@@ -4,7 +4,7 @@ CREATE TABLE dossier_medical
     diagnostic    VARCHAR(255)       ,
     observations  VARCHAR(255)       ,
     date_creation date               ,
-    patient_id    INT
+    patient_id    BIGINT
 );
 
 CREATE TABLE medecine
@@ -23,7 +23,7 @@ CREATE TABLE patient
     prenom         VARCHAR(255)       ,
     email          VARCHAR(255)       ,
     telephone      VARCHAR(255)       ,
-    date_naissance date
+    date_naissance BIGINT
 );
 
 CREATE TABLE render_vous
@@ -31,6 +31,14 @@ CREATE TABLE render_vous
     id               BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     date_rendez_vous date               ,
     statut           VARCHAR(255)       ,
-    medecine_id      INT                ,
-    patient_id       INT
+    medecine_id      BIGINT             ,
+    patient_id       BIGINT
+);
+CREATE TABLE user
+(
+    id  BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL
 );

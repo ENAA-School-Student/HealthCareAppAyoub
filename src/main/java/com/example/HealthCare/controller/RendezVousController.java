@@ -78,24 +78,6 @@ public class RendezVousController {
         return ResponseEntity.ok(rendezVousService.modifieRendezVousStatut(id, statut));
     }
 
-    @GetMapping("/getRendezVous")
-    public ResponseEntity<Page<RendezVousResponseDTO>> obtenirTousLesRendezVousPagination
-            (@RequestParam(defaultValue = "1") int pageNumber,
-             @RequestParam(defaultValue = "5") int pageSize,
-             @RequestParam(defaultValue = "dateRendezVous") String sort
-             @RequestParam(defaultValue = "asc") String sortDer
-            ) {
-        Sort sort = null;
-        if (sortDer.equalsIgnoreCase("ASC")) {
-            sort = Sort.by(sortBy).ascending();
-        } else {
-            sort = Sort.by(sortBy).descending();
-        }
-
-        Page<RendezVousResponseDTO>
-                rs = rendezVousService.obtenirTousLesRendezVousPagination(PageRequest.of(pageNumber - 1, pageSize, sort));
-        return ResponseEntity.ok(rs);
-    }
 }
 
 //    @GetMapping("/getALlrendezVous")

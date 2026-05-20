@@ -39,6 +39,7 @@ public class AuthenticationService implements UserDetailsService {
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .authorities("ROLE_" + user.getRole().name())
                 .build();
     }
     public AuthenticationResponceDTO getUser(String username){
@@ -51,13 +52,10 @@ public class AuthenticationService implements UserDetailsService {
         user.setUsername(userdto.getUsername());
         user.setEmail(userdto.getEmail());
         user.setPassword(passwordEncoder.encode(userdto.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(Role.PATIENT);
         userRepository.save(user);
+        return userMapper.ToDTO(userRepository.save(user));
 
-    var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponceDTO.builder()
-                .token(jwtToken)
-                .build();
     }
     public AuthenticationResponceDTO login( AuthenticationRequestDTO request){
          authenticationManager.authenticate(

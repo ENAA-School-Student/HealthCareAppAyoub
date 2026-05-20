@@ -4,6 +4,9 @@ import com.example.HealthCare.dto.DossierMedicalRequestDTO;
 import com.example.HealthCare.dto.DossierMedicalResponseDTO;
 import com.example.HealthCare.service.DossierMedicalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/DossierMedical")
+@RequestMapping("/api/DossierMedical")
 public class DossierMedicalController {
     @Autowired
     public DossierMedicalService dossierMedicalService;
@@ -31,16 +34,16 @@ public class DossierMedicalController {
         DossierMedicalResponseDTO rs = dossierMedicalService.AjouterObservation(id, observation);
         return ResponseEntity.ok(rs);
     }
-    @GetMapping("/DossierMedical/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<DossierMedicalResponseDTO> Consulterdossielmedical(@PathVariable long id){
         DossierMedicalResponseDTO rs = dossierMedicalService.Consulterdossielmedical(id);
         return ResponseEntity.ok(rs);
     }
+
 //    @GetMapping("/dossierWithPatietns")
 //    public ResponseEntity<List<DossierMedicalResponseDTO>> getAllPatientifoesFromDossier(){
 //        return ResponseEntity.ok(dossierMedicalService.getDossierMedecalWithPatietnInfoes());
 //    }
-
-
 
 }

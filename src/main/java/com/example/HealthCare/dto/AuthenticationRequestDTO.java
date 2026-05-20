@@ -2,11 +2,12 @@ package com.example.HealthCare.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
+
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthenticationRequestDTO {
     @NonNull
     private String username;
