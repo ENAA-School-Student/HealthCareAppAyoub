@@ -1,7 +1,6 @@
 package com.example.HealthCare.dto;
 
 
-import com.example.HealthCare.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -20,8 +19,6 @@ public class RegisterDTO {
         @NonNull
         @Size(min=6, max=50)
         private String password;
-        private Role role;
-
 }
 
 

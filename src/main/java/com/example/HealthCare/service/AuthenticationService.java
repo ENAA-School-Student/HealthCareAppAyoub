@@ -37,10 +37,12 @@ public class AuthenticationService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User "+username+" not found"));
+
         return org.springframework.security.core.userdetails.User
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .authorities(user.getRole().getAuth())
                 .build();
     }
     public AuthenticationResponceDTO getUser(String username){
@@ -57,7 +59,7 @@ public class AuthenticationService implements UserDetailsService {
         user.setUsername(registerDTO.getUsername());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        user.setRole(registerDTO.getRole());
+        user.setRole(Role.PATIENT);
         userRepository.save(user);
 
     var jwtToken = jwtService.generateToken(user);
@@ -67,6 +69,7 @@ public class AuthenticationService implements UserDetailsService {
                 .token(jwtToken)
                 .build();
     }
+
     public AuthenticationResponceDTO login( AuthenticationRequestDTO request){
         // the user is autheticated here:
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));

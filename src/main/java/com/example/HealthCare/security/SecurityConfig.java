@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.example.HealthCare.enums.Permission.*;
-import static com.example.HealthCare.enums.Role.*;
 
 @Configuration
 @EnableWebSecurity
@@ -31,11 +30,14 @@ public class SecurityConfig {
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers(  "/api/auth/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html").permitAll()
 
-                                .requestMatchers(HttpMethod.GET,"/api/patients/**").hasAuthority(ADMIN_READ_patient.name())
+                                .requestMatchers(HttpMethod.GET,"/api/patients/**").hasAnyAuthority(ADMIN_READ_profil.name(),PATIENT_READ_profil.name())
                                 .requestMatchers(HttpMethod.POST,"/api/patients/**").hasAuthority(ADMIN_CREATE_patient.name())
-                                .requestMatchers(HttpMethod.PUT,"/api/patients/**").hasAuthority(ADMIN_UPDATE_patient.name())
+                                .requestMatchers(HttpMethod.PUT,"/api/patients/**").hasAnyAuthority(ADMIN_UPDATE_info_personnel.name(),PATIENT_UPDATE_info_personnel.name())
                                 .requestMatchers(HttpMethod.DELETE,"/api/patients/**").hasAuthority(ADMIN_DELETE_patient.name())
 
                                 .requestMatchers(HttpMethod.GET,"/api/medecine/**").hasAuthority(ADMIN_READ_medecin.name())
@@ -67,8 +69,7 @@ public class SecurityConfig {
                                         ADMIN_UPDATE_observations.name(),
                                         MEDECIN_UPDATE_observations.name())
 
-                                .requestMatchers(HttpMethod.GET,"/api/patients/**").hasAuthority(PATIENT_READ_profil.name())
-                                .requestMatchers(HttpMethod.PUT,"/api/patients/**").hasAuthority(PATIENT_UPDATE_info_personnel.name())
+
 
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
