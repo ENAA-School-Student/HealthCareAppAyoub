@@ -16,8 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
-import java.lang.annotation.Retention;
+
 import java.util.List;
 
 @RestController
@@ -85,13 +84,7 @@ public class RendezVousController {
              @RequestParam(defaultValue = "dateRendezVous") String sortBy,
              @RequestParam(defaultValue = "asc") String sortDer
             ) {
-        Sort sort = null;
-        if (sortDer.equalsIgnoreCase("ASC")) {
-            sort = Sort.by(sortBy).ascending();
-        } else {
-            sort = Sort.by(sortBy).descending();
-        }
-
+        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Page<RendezVousResponseDTO>
                 rs = rendezVousService.obtenirTousLesRendezVousPagination(PageRequest.of(pageNumber - 1, pageSize, sort));
         return ResponseEntity.ok(rs);

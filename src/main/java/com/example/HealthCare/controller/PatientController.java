@@ -46,22 +46,19 @@ public class PatientController {
         return ResponseEntity.ok(rs);
     }
 
-    @GetMapping("/getPatients")
+    @GetMapping("/getPatientsPagination")
     public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
             @RequestParam (defaultValue = "1") int pageNumber,
             @RequestParam (defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "nom") String sortBy,
             @RequestParam (defaultValue = "asc")String sortDir
     ){
-        Sort sort = null ;
-        if (sortDir.equalsIgnoreCase("ASC")){
-            sort = Sort.by(sortBy).ascending();
-        }else {
-            sort = Sort.by(sortBy).descending();
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        {
+            Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation
+                    (PageRequest.of(pageNumber-1,pageSize,sort));
+            return ResponseEntity.ok(rs);
         }
-    {
-        Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation
-                (PageRequest.of(pageNumber-1,pageSize,sort));
-        return ResponseEntity.ok(rs);
+
     }
-}}
+}
