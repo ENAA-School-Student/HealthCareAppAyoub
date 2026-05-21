@@ -20,6 +20,7 @@
     public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
+
         @Override
         protected void doFilterInternal(
                 @NonNull HttpServletRequest request,
@@ -46,13 +47,9 @@
                         null ,
                         userDetails.getAuthorities()
                 );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
             filterChain.doFilter(request,response);
-
         }
     }

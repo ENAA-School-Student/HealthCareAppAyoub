@@ -20,7 +20,6 @@ private static final String SECRET_KEY ="03c6818e2605d0d551e3465c8d9dd629b8cdb95
     public String extractUserName(String token ){
         return extractClaim(token,Claims::getSubject);
     }
-
     public<T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

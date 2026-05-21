@@ -28,11 +28,14 @@ public class ApplicationConfig {
     }
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-                                                         BCryptPasswordEncoder passwordEncoder){
+                                                         BCryptPasswordEncoder passwordEncoder)
+    {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
+
+
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception{

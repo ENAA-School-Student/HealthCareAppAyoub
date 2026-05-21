@@ -2,7 +2,6 @@ package com.example.HealthCare.service;
 
 import com.example.HealthCare.dto.AuthenticationRequestDTO;
 import com.example.HealthCare.dto.AuthenticationResponceDTO;
-import com.example.HealthCare.enums.Role;
 import com.example.HealthCare.mapper.UserMapper;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.UserRepository;
@@ -14,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 
 
 @Service
@@ -39,7 +40,7 @@ public class AuthenticationService implements UserDetailsService {
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities("ROLE_" + user.getRole().name())
+                .authorities(Collections.emptyList())
                 .build();
     }
     public AuthenticationResponceDTO getUser(String username){
@@ -48,13 +49,12 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public AuthenticationResponceDTO saveUser(AuthenticationRequestDTO userdto){
-        var user = userMapper.ToEntity(userdto);
+        User user = new User();
         user.setUsername(userdto.getUsername());
         user.setEmail(userdto.getEmail());
         user.setPassword(passwordEncoder.encode(userdto.getPassword()));
-        user.setRole(Role.PATIENT);
-        userRepository.save(user);
-        return userMapper.ToDTO(userRepository.save(user));
+        User user1 = userRepository.save(user);
+        return userMapper.ToDTO(user1);
 
     }
     public AuthenticationResponceDTO login( AuthenticationRequestDTO request){
