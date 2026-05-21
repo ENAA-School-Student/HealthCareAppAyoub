@@ -72,19 +72,6 @@ public class RendezVousController {
     public ResponseEntity<RendezVousResponseDTO> modifieRendezVousStatut(@RequestParam Long id, @RequestParam Statut statut) {
         return ResponseEntity.ok(rendezVousService.modifieRendezVousStatut(id, statut));
     }
-
-    @GetMapping("/getRendezVous")
-    public ResponseEntity<Page<RendezVousResponseDTO>> obtenirTousLesRendezVousPagination
-            (@RequestParam(defaultValue = "1") int pageNumber,
-             @RequestParam(defaultValue = "5") int pageSize,
-             @RequestParam(defaultValue = "dateRendezVous") String sortBy,
-             @RequestParam(defaultValue = "asc") String sortDer
-            ) {
-        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        Page<RendezVousResponseDTO>
-                rs = rendezVousService.obtenirTousLesRendezVousPagination(PageRequest.of(pageNumber - 1, pageSize, sort));
-        return ResponseEntity.ok(rs);
-    }
 }
 
 //    @GetMapping("/getALlrendezVous")

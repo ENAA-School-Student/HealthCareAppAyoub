@@ -4,9 +4,7 @@ import com.example.HealthCare.dto.DossierMedicalRequestDTO;
 import com.example.HealthCare.dto.DossierMedicalResponseDTO;
 import com.example.HealthCare.service.DossierMedicalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,22 +36,6 @@ public class DossierMedicalController {
         DossierMedicalResponseDTO rs = dossierMedicalService.Consulterdossielmedical(id);
         return ResponseEntity.ok(rs);
     }
-
-    @GetMapping("/getAllDossierMedical")
-    public ResponseEntity<Page<DossierMedicalResponseDTO>> getDossieMedicalPagination(
-            @RequestParam (defaultValue = "1") int pageNUmber,
-            @RequestParam (defaultValue = "5") int pageSize,
-            @RequestParam (defaultValue = "dateCreation") String sortBy,
-            @RequestParam (defaultValue = "desc") String sortDer
-
-            ){
-        Sort sort = sortDer.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending()
-                : Sort.by(sortBy).ascending();
-
-        Page<DossierMedicalResponseDTO> rs = dossierMedicalService.getDossierMedical(PageRequest.of(pageNUmber-1,pageSize,sort));
-        return ResponseEntity.ok(rs);
-    }
-
 
 //    @GetMapping("/dossierWithPatietns")
 //    public ResponseEntity<List<DossierMedicalResponseDTO>> getAllPatientifoesFromDossier(){

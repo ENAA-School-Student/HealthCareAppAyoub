@@ -45,18 +45,5 @@ public class MedecinController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getMedecinePagination")
-    public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
-            @RequestParam( defaultValue = "1") int pageNumber ,
-            @RequestParam( defaultValue = "5") int pageSize,
-            @RequestParam (defaultValue = "specialite.nom") String sortBy,
-            @RequestParam (defaultValue = "asc")String sortDir )
-    {
-        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-    {
-        Page<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecinPagination(
-                PageRequest.of(pageNumber-1,pageSize,sort));
-        return ResponseEntity.ok(rs);
-    }
-}
+
 }
