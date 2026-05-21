@@ -3,6 +3,7 @@ package com.example.HealthCare.service;
 import com.example.HealthCare.Exceptions.ResourceNotFoundException;
 import com.example.HealthCare.dto.MedecinRequestDTO;
 import com.example.HealthCare.dto.MedecinResponseDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
 import com.example.HealthCare.model.Medecine;
 import com.example.HealthCare.repository.MedecinRepository;
@@ -52,9 +53,15 @@ public class MedecinService {
         medecinRepository.delete(medecine);
         return true;
     }
+
+
     public Page<MedecinResponseDTO> obtenirTousLesMedecinPagination(Pageable pageable) {
         return medecinRepository.findAll(pageable)
                 .map(medecin -> medecinMapper.ToDTO(medecin));
+    }
+    public Page<MedecinResponseDTO> rechercherParSpecialite(String specialite, Pageable pageable){
+        return medecinRepository.findMedcineByspecialite(specialite,pageable)
+                .map(medecine -> medecinMapper.ToDTO(medecine));
     }
 
 }

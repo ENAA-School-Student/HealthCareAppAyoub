@@ -63,6 +63,10 @@ return patientResponseDTOS;
       return patientRepository.findAll(pageable)
               .map(patient -> patientMapper.toDTO(patient));
     }
+  public Page<PatientResponseDTO> rechercherParNom(String nom, Pageable pageable){
+        return patientRepository.findByNom(nom,pageable)
+                .map(patient -> patientMapper.toDTO(patient));
+  }
 
 
 }

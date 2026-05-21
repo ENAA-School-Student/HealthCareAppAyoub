@@ -2,11 +2,13 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.MedecinRequestDTO;
 import com.example.HealthCare.dto.MedecinResponseDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,5 +62,18 @@ public class MedecinController {
         }
     }
 
+    @GetMapping("/searchMedecinParSpecialite")
+    public ResponseEntity<Page<MedecinResponseDTO>> rechercherParSpecialite(
+            @RequestParam String specialite,
+            @RequestParam (defaultValue = "1") int pageNumber,
+            @RequestParam (defaultValue = "5") int pageSize,
+            @RequestParam (defaultValue = "specialite") String sortBy,
+            @RequestParam (defaultValue = "asc") String  sortDir
+    ){
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber-1,pageSize,sort);
+        Page<MedecinResponseDTO> rs = medecinService.rechercherParSpecialite(specialite,pageable);
+        return ResponseEntity.ok(rs);
+    }
 
 }

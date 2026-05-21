@@ -2,6 +2,8 @@ package com.example.HealthCare.service;
 
 import com.example.HealthCare.dto.DossierMedicalRequestDTO;
 import com.example.HealthCare.dto.DossierMedicalResponseDTO;
+import com.example.HealthCare.dto.PatientResponseDTO;
+import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.mapper.DossierMedicalMapper;
 import com.example.HealthCare.model.DossierMedical;
 import com.example.HealthCare.repository.DossierMedicalRepository;
@@ -47,6 +49,7 @@ public class DossierMedicalService {
         return dossierMedicalRepository.findAll(pageable)
                 .map(dossierMedical -> dossierMedicalMapper.toDTO(dossierMedical));
     }
+
 
 //    public List<DossierMedicalResponseDTO> getDossierMedecalWithPatietnInfoes(){
 //        return dossierMedicalRepository.getDossierMedecalWithPatietnInfoes()

@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,11 +83,25 @@ public class RendezVousController {
             (@RequestParam(defaultValue = "1") int pageNumber,
              @RequestParam(defaultValue = "5") int pageSize,
              @RequestParam(defaultValue = "dateRendezVous") String sortBy,
-             @RequestParam(defaultValue = "asc") String sortDer
+             @RequestParam(defaultValue = "desc") String sortDer
             ) {
-        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Sort sort = sortDer.equalsIgnoreCase("desc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Page<RendezVousResponseDTO>
                 rs = rendezVousService.obtenirTousLesRendezVousPagination(PageRequest.of(pageNumber - 1, pageSize, sort));
+        return ResponseEntity.ok(rs);
+    }
+
+    @GetMapping("/rechercherParDate")
+    public ResponseEntity<Page<RendezVousResponseDTO>> rechercherParDate
+            (@RequestParam(defaultValue = "1") int pageNumber,
+             @RequestParam(defaultValue = "5") int pageSize,
+             @RequestParam(defaultValue = "EN_ATTENTE") Statut statut,
+             @RequestParam(defaultValue = "asc") String sortDer)
+    {
+        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by("statut").ascending() : Sort.by("statut").descending();
+        Pageable pageable = PageRequest.of(pageNumber-1,pageSize,sort);
+        Page<RendezVousResponseDTO>
+                rs = rendezVousService.rechercherParStatut(statut,pageable);
         return ResponseEntity.ok(rs);
     }
 }

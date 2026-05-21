@@ -131,9 +131,10 @@ public Page<RendezVousResponseDTO> obtenirTousLesRendezVousPagination(Pageable p
                 .map(rendezvous -> rendezVousMapper.ToDTO(rendezvous));
 }
 
-
-
-
+    public Page<RendezVousResponseDTO> rechercherParStatut(Statut statut, Pageable pageable){
+        return rendezVousRepository.findByStatut(statut,pageable)
+                .map(rendezVousStatut -> rendezVousMapper.ToDTO(rendezVousStatut));
+    }
 
 
 

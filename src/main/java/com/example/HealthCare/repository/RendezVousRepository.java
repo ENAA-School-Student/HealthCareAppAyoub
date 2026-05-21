@@ -7,6 +7,8 @@ import com.example.HealthCare.model.DossierMedical;
 import com.example.HealthCare.model.Medecine;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.RendezVous;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,11 +22,11 @@ public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
     List<RendezVous> findByPatient_Id(long id);
     List<RendezVous> findByMedecine_Id(long id);
 
-    List<RendezVousResponseDTO> findByStatut(Statut statut);
-
+    Page<RendezVous> findByStatut(Statut statut, Pageable pageable);
 
     @Query("select r from RendezVous r JOIN r.medecine m where m.id = :id")
     List<RendezVous> findRendezVousDeUnMedecine(long id);
+
 
 
 
