@@ -5,12 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jdk.dynalink.linker.LinkerServices;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -36,9 +38,15 @@ private static final String SECRET_KEY ="03c6818e2605d0d551e3465c8d9dd629b8cdb95
     }
     public String generateToken(Map<String,Object> extractClaims, UserDetails userDetails)
     {
+        List<String> authorities = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
         return  Jwts
                 .builder()
                 .setClaims(extractClaims)
+                .claim("authorities",authorities)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration((new Date(System.currentTimeMillis() + 1000 * 60 * 60  * 24)))

@@ -64,8 +64,6 @@ public class AuthenticationService implements UserDetailsService {
 
     var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
-                .username(user.getUsername())
-                .role(user.getRole().name())
                 .token(jwtToken)
                 .build();
     }
@@ -77,8 +75,6 @@ public class AuthenticationService implements UserDetailsService {
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(()-> new ResourceNotFoundException("User not found !!!"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
-                .username(user.getUsername())
-                .role(user.getRole().name())
                 .token(jwtToken)
                 .build();
     }
