@@ -57,7 +57,7 @@ import lombok.extern.slf4j.Slf4j;
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                log.debug("Authenticated user={} authorities={}", username, authToken.getAuthorities());
+                log.info("Authenticated user={} authorities={}", username, authToken.getAuthorities());
             }
         }
             filterChain.doFilter(request,response);
