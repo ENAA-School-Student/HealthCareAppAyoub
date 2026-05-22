@@ -20,8 +20,8 @@ public class DossierMedicalController {
     @Autowired
     public DossierMedicalService dossierMedicalService;
 
-    @PostMapping
-    public ResponseEntity<DossierMedicalResponseDTO> ajouterDossierMedical(DossierMedicalRequestDTO dossierMedicalRequestDTO){
+    @PostMapping("/ajouterDossierMedical")
+    public ResponseEntity<DossierMedicalResponseDTO> ajouterDossierMedical(@RequestBody  DossierMedicalRequestDTO dossierMedicalRequestDTO){
         DossierMedicalResponseDTO save = dossierMedicalService.ajouterUnDossierMedical(dossierMedicalRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
@@ -51,7 +51,6 @@ public class DossierMedicalController {
     ){
         Sort sort = sortDer.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
-
         Page<DossierMedicalResponseDTO> rs = dossierMedicalService.getDossierMedical(PageRequest.of(pageNUmber-1,pageSize,sort));
         return ResponseEntity.ok(rs);
     }

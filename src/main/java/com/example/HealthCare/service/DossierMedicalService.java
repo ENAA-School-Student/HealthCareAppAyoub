@@ -2,27 +2,34 @@ package com.example.HealthCare.service;
 
 import com.example.HealthCare.dto.DossierMedicalRequestDTO;
 import com.example.HealthCare.dto.DossierMedicalResponseDTO;
+
 import com.example.HealthCare.dto.PatientResponseDTO;
-import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.mapper.DossierMedicalMapper;
 import com.example.HealthCare.model.DossierMedical;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.repository.DossierMedicalRepository;
+import com.example.HealthCare.repository.PatientRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+@AllArgsConstructor
 @Service
 public class DossierMedicalService {
-    @Autowired
-   private DossierMedicalRepository dossierMedicalRepository;
-    @Autowired
-    private DossierMedicalMapper dossierMedicalMapper;
+
+    private final DossierMedicalRepository dossierMedicalRepository;
+    private final DossierMedicalMapper dossierMedicalMapper;
+    private final PatientRepository patientRepository;
 
 
     public DossierMedicalResponseDTO ajouterUnDossierMedical(DossierMedicalRequestDTO dossierMedicalRequestDTO){
+        Patient patient = patientRepository.findById
+                (dossierMedicalRequestDTO.getPatientId())
+                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + dossierMedicalRequestDTO.getPatientId()));
         DossierMedical dossierMedical = dossierMedicalMapper.toEntity(dossierMedicalRequestDTO);
+        dossierMedical.setPatient(patient);
         DossierMedical saveDossierMedical = dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(saveDossierMedical);
     }
