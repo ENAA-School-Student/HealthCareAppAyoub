@@ -1,29 +1,49 @@
 package com.example.HealthCare.service;
 
 import com.example.HealthCare.Exceptions.ResourceNotFoundException;
+import com.example.HealthCare.dto.MedecinRequestDTO;
+import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
+import com.example.HealthCare.enums.Role;
 import com.example.HealthCare.mapper.PatientMapper;
 import com.example.HealthCare.model.Patient;
+import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.HealthCare.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class PatientService {
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private PatientMapper patientMapper;
+    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
+    private final PatientMapper patientMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public PatientResponseDTO ajouterPatient(PatientRequestDTO patientRequestDTO) {
+
+    public PatientResponseDTO ajouterPatient(PatientRequestDTO patientRequestDTO){
+        if(userRepository.findByEmail(patientRequestDTO.getEmail()).isPresent()){
+            throw new RuntimeException("Email already exists!");
+        }
+        User user = new User();
+        user.setUsername(patientRequestDTO.getEmail());
+        user.setEmail(patientRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(patientRequestDTO.getTelephone()));
+        user.setRole(Role.PATIENT);
+        userRepository.save(user);
+
         Patient patient = patientMapper.toEntity(patientRequestDTO);
-        Patient savePatient = patientRepository.save(patient);
-        return patientMapper.toDTO(savePatient);
+        patient.setUser(user);
+        return patientMapper.toDTO(patientRepository.save(patient));
     }
 
     public List<PatientResponseDTO> obtenirTousLesPatients(){
@@ -34,6 +54,7 @@ public class PatientService {
         }
 return patientResponseDTOS;
     }
+
     public PatientResponseDTO modifierpatient(Long id, PatientRequestDTO patientRequestDTO){
         Patient patient = patientRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Patient Not found with id  :"+id));
 

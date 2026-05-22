@@ -28,12 +28,6 @@ public class MedecinController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveMedecin);
     }
 
-    @GetMapping
-    public ResponseEntity<List<MedecinResponseDTO>> obtenirTousLesMedecin() {
-      List<MedecinResponseDTO> rs= medecinService.obtenirTousLesMedecin();
-       return ResponseEntity.ok(rs);
-    }
-
     @PutMapping("/modifier/{id}")
     public ResponseEntity<MedecinResponseDTO> modifierMedecine(@PathVariable @Valid long id , @RequestBody MedecinRequestDTO medecinRequestDTO){
         MedecinResponseDTO rs = medecinService.modifieMedeceine(id, medecinRequestDTO);
@@ -51,7 +45,7 @@ public class MedecinController {
     public ResponseEntity<Page<MedecinResponseDTO>> obtenirTousLesMedecinPagination(
             @RequestParam( defaultValue = "1") int pageNumber ,
             @RequestParam( defaultValue = "5") int pageSize,
-            @RequestParam (defaultValue = "specialite.nom") String sortBy,
+            @RequestParam (defaultValue = "nom") String sortBy,
             @RequestParam (defaultValue = "asc")String sortDir )
     {
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
@@ -64,7 +58,7 @@ public class MedecinController {
 
     @GetMapping("/searchMedecinParSpecialite")
     public ResponseEntity<Page<MedecinResponseDTO>> rechercherParSpecialite(
-            @RequestParam String specialite,
+            @RequestParam (required = false) String specialite,
             @RequestParam (defaultValue = "1") int pageNumber,
             @RequestParam (defaultValue = "5") int pageSize,
             @RequestParam (defaultValue = "specialite") String sortBy,

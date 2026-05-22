@@ -29,4 +29,7 @@ public class Medecine {
     @JsonIgnore
     private List<RendezVous> rendezVousList;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

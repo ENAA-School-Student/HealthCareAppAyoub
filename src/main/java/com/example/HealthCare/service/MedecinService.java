@@ -6,35 +6,46 @@ import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
 import com.example.HealthCare.model.Medecine;
+import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.MedecinRepository;
+import com.example.HealthCare.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
+@Transactional
 public class MedecinService {
-    @Autowired
-    private MedecinRepository medecinRepository;
-    @Autowired
-    private MedecinMapper medecinMapper;
+
+    private final MedecinRepository medecinRepository;
+    private final MedecinMapper medecinMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     public MedecinResponseDTO ajouterMedecin(MedecinRequestDTO medecinRequestDTO){
-        Medecine medecine = medecinMapper.ToEntity(medecinRequestDTO);
-        Medecine saveMedecine=medecinRepository.save(medecine);
-        return medecinMapper.ToDTO(saveMedecine);
-}
-    public List<MedecinResponseDTO> obtenirTousLesMedecin() {
-        List<Medecine> medecines = medecinRepository.findAll();
-        List<MedecinResponseDTO> medecinResponseDTOS = new ArrayList<>();
-        for(Medecine medecine : medecines){
-            medecinResponseDTOS.add(medecinMapper.ToDTO(medecine));
+        if(userRepository.findByEmail(medecinRequestDTO.getEmail()).isPresent()){
+            throw new RuntimeException("Email already exists!");
         }
-        return medecinResponseDTOS;
-    }
+        User user = new User();
+        user.setUsername(medecinRequestDTO.getEmail());
+        user.setEmail(medecinRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(medecinRequestDTO.getTelephone()));
+        user.setRole(com.example.HealthCare.enums.Role.MEDECIN);
+        userRepository.save(user);
+
+        Medecine medecine = medecinMapper.ToEntity(medecinRequestDTO);
+        medecine.setUser(user);
+        return medecinMapper.ToDTO(medecinRepository.save(medecine));
+
+}
 
 
     public MedecinResponseDTO modifieMedeceine(Long id , MedecinRequestDTO medecinRequestDTO){

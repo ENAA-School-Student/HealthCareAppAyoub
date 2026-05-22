@@ -55,7 +55,7 @@ public class AuthenticationService implements UserDetailsService {
             throw new RuntimeException("Username already exists!");
         }
 
-        var user = userMapper.ToEntity(registerDTO);
+        User user = userMapper.ToEntity(registerDTO);
         user.setUsername(registerDTO.getUsername());
         user.setEmail(registerDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
