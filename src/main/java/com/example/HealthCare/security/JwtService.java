@@ -38,6 +38,7 @@
                             .map(GrantedAuthority::getAuthority)
                             .toList()),userDetails);
         }
+
         public String generateToken(Map<String,Object> extractClaims, UserDetails userDetails)
         {
             List<String> authorities = userDetails.getAuthorities()

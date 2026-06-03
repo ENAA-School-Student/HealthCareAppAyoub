@@ -11,6 +11,4 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
     User ToEntity(RegisterDTO registerDTO);
     AuthenticationResponceDTO ToDTO(User user);
-
-
 }

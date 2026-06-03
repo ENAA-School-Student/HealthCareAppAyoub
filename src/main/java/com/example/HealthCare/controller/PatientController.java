@@ -76,4 +76,5 @@ public class PatientController {
         Page<PatientResponseDTO> rs = patientService.rechercherParNom(nom,pageable);
         return ResponseEntity.ok(rs);
     }
+
 }

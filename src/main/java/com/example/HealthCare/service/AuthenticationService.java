@@ -24,8 +24,8 @@ public class AuthenticationService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
+
 
     public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;

@@ -11,6 +11,7 @@ import com.example.HealthCare.repository.DossierMedicalRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
@@ -55,6 +56,11 @@ public class DossierMedicalService {
     public Page<DossierMedicalResponseDTO> getDossierMedical(Pageable pageable) {
         return dossierMedicalRepository.findAll(pageable)
                 .map(dossierMedical -> dossierMedicalMapper.toDTO(dossierMedical));
+    }
+
+    public Page<DossierMedicalResponseDTO> getDossierMedicalParDiagnostic(String diagnostic, Pageable pageable) {
+            return dossierMedicalRepository.findByDiagnostic(diagnostic,pageable)
+                    .map(dossierMedicalMapper::toDTO);
     }
 
 

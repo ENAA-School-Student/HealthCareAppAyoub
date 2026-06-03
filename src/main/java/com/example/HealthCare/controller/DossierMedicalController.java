@@ -55,6 +55,24 @@ public class DossierMedicalController {
         return ResponseEntity.ok(rs);
     }
 
+
+    @GetMapping("getDossierMedicalParDiagnostic")
+    public ResponseEntity<Page<DossierMedicalResponseDTO>> getDossierMedicalParDiagnostic(
+            @RequestParam String diagnostic,
+            @RequestParam (defaultValue = "1") int pageNUmber,
+            @RequestParam (defaultValue = "5") int pageSize,
+            @RequestParam (defaultValue = "id") String sortBy,
+            @RequestParam (defaultValue = "asc") String sortDer    ){
+
+        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        Page<DossierMedicalResponseDTO> rs = dossierMedicalService.getDossierMedicalParDiagnostic(diagnostic,PageRequest.of(pageNUmber-1,pageSize,sort));
+        return  ResponseEntity.ok(rs);
+    }
+
+
+
+
 //    @GetMapping("/dossierWithPatietns")
 //    public ResponseEntity<List<DossierMedicalResponseDTO>> getAllPatientifoesFromDossier(){
 //        return ResponseEntity.ok(dossierMedicalService.getDossierMedecalWithPatietnInfoes());

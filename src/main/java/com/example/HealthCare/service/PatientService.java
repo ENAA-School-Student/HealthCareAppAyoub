@@ -1,8 +1,7 @@
 package com.example.HealthCare.service;
 
 import com.example.HealthCare.Exceptions.ResourceNotFoundException;
-import com.example.HealthCare.dto.MedecinRequestDTO;
-import com.example.HealthCare.dto.MedecinResponseDTO;
+
 import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.enums.Role;
@@ -88,6 +87,9 @@ return patientResponseDTOS;
         return patientRepository.findByNom(nom,pageable)
                 .map(patient -> patientMapper.toDTO(patient));
   }
-
+public Page<PatientResponseDTO> findBytelephone(String tele, Pageable p){
+        return patientRepository.findByTelePhone(tele,p)
+                .map(patientMapper::toDTO);
+}
 
 }
