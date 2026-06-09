@@ -12,6 +12,8 @@ import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,7 @@ public class PatientService {
     private final PatientMapper patientMapper;
     private final PasswordEncoder passwordEncoder;
 
-
+    @CacheEvict(value = "patients", allEntries = true)
     public PatientResponseDTO ajouterPatient(PatientRequestDTO patientRequestDTO){
         if(userRepository.findByEmail(patientRequestDTO.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists!");
@@ -44,16 +46,16 @@ public class PatientService {
         patient.setUser(user);
         return patientMapper.toDTO(patientRepository.save(patient));
     }
-
+    @Cacheable("patients")
     public List<PatientResponseDTO> obtenirTousLesPatients(){
-        List<Patient>patients = patientRepository.findAll();
-        List<PatientResponseDTO> patientResponseDTOS = new ArrayList<>();
-        for(Patient patient : patients){
-        patientResponseDTOS.add(patientMapper.toDTO(patient));
-        }
-return patientResponseDTOS;
+            List<Patient>patients = patientRepository.findAll();
+            List<PatientResponseDTO> patientResponseDTOS = new ArrayList<>();
+            for(Patient patient : patients){
+            patientResponseDTOS.add(patientMapper.toDTO(patient));
+            }
+        return patientResponseDTOS;
     }
-
+    @CacheEvict(value = "patients", allEntries = true)
     public PatientResponseDTO modifierpatient(Long id, PatientRequestDTO patientRequestDTO){
         Patient patient = patientRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Patient Not found with id  :"+id));
 
@@ -66,30 +68,31 @@ return patientResponseDTOS;
         Patient saveUpdate = patientRepository.save(patient);
         return patientMapper.toDTO(saveUpdate);
     }
-
+    @CacheEvict(value = "patients",allEntries = true)
         public Boolean supprimerPatinet(Long id){
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         patientRepository.delete(patient);
         return true;
     }
-
+    @Cacheable(value = "patients", key = "#id")
     public PatientResponseDTO consulterPatient(Long id){
         Patient patient = patientRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found with id  :"+id));
         return patientMapper.toDTO(patient);
     }
-
-
+    @Cacheable("patients")
     public Page<PatientResponseDTO> obtenirTousLesPatientsParPagenation(Pageable pageable){
       return patientRepository.findAll(pageable)
               .map(patient -> patientMapper.toDTO(patient));
     }
-  public Page<PatientResponseDTO> rechercherParNom(String nom, Pageable pageable){
+    @Cacheable("patients")
+    public Page<PatientResponseDTO> rechercherParNom(String nom, Pageable pageable){
         return patientRepository.findByNom(nom,pageable)
                 .map(patient -> patientMapper.toDTO(patient));
   }
-public Page<PatientResponseDTO> findBytelephone(String tele, Pageable p){
-        return patientRepository.findByTelePhone(tele,p)
-                .map(patientMapper::toDTO);
-}
+
+//public Page<PatientResponseDTO> findBytelephone(String tele, Pageable p){
+//        return patientRepository.findByTelePhone(tele,p)
+//                .map(patientMapper::toDTO);
+//}
 
 }

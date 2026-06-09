@@ -14,6 +14,8 @@ import com.example.HealthCare.repository.MedecinRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,13 +35,8 @@ public class RendezVousService {
     MedecinRepository medecinRepository;
     @Autowired
     PatientRepository patientRepository;
-//    @Autowired
-//    private MedecinMapper medecinMapper;
-//    @Autowired
-//    private PatientMapper patientMapper;
-    @Autowired
-    private DossierMedicalMapper dossierMedicalMapper;
 
+    @CacheEvict(value = "medecine", allEntries = true)
 
     public RendezVousResponseDTO ajouterRendezVous(RendezVousRequestDTO rendezVousRequestDTO)
     {
@@ -54,7 +51,7 @@ public class RendezVousService {
 
         return rendezVousMapper.ToDTO(save);
     }
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public RendezVousResponseDTO modifieRendezVous(Long id, RendezVousRequestDTO rendezVousRequestDTO){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
         Medecine medecine = medecinRepository.findById(rendezVousRequestDTO.getMedecinId()).orElseThrow(()->new ResourceNotFoundException("medecine Not found with id  :"+id));
@@ -67,7 +64,7 @@ public class RendezVousService {
         RendezVous saveUpdatedRendezVous = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.ToDTO(saveUpdatedRendezVous);
     }
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public RendezVousResponseDTO modifieRendezVousStatut(Long id , Statut statut){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
         rendezVous.setStatut(statut);
@@ -76,7 +73,7 @@ public class RendezVousService {
         return rendezVousMapper.ToDTO(save);
     }
 
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public RendezVousResponseDTO AnnulerRendezVous(long id){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("RendzeVous Not found with id  :"+id));
 
@@ -95,14 +92,15 @@ public class RendezVousService {
         return rendezVousResponseDTOS;
 
     }
-public  List<RendezVousResponseDTO> rechercherParPatient(long id){
+    @Cacheable("medecine")
+    public  List<RendezVousResponseDTO> rechercherParPatient(long id){
         List<RendezVousResponseDTO> GetResault = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByPatient_Id(id) ){
             GetResault.add(rendezVousMapper.ToDTO(rendezVous));
         }
         return GetResault;
 }
-
+    @Cacheable("medecine")
 public List<RendezVousResponseDTO> rechercherParMedecine(long id){
         List<RendezVousResponseDTO> GetResaul = new ArrayList<>();
         for(RendezVous rendezVous : rendezVousRepository.findByMedecine_Id(id)){
@@ -111,34 +109,30 @@ public List<RendezVousResponseDTO> rechercherParMedecine(long id){
         return GetResaul;
 }
 
-
+    @Cacheable("medecine")
 public List<RendezVousResponseDTO> rendezVousParStatut(Statut statut){
         return rendezVousRepository.findAll()
                 .stream()
                 .filter(rendezvous -> rendezvous.getStatut().equals(statut))
                 .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
 }
-
+    @Cacheable("medecine")
 public List<RendezVousResponseDTO> findRendzeVousByMedecinID(long id){
         return rendezVousRepository.findRendezVousDeUnMedecine(id)
                 .stream()
                 .map(rendezVous -> rendezVousMapper.ToDTO(rendezVous)).toList();
 
 }
-
+    @Cacheable("medecine")
 public Page<RendezVousResponseDTO> obtenirTousLesRendezVousPagination(Pageable pageable){
         return rendezVousRepository.findAll(pageable)
                 .map(rendezvous -> rendezVousMapper.ToDTO(rendezvous));
 }
-
+    @Cacheable("medecine")
     public Page<RendezVousResponseDTO> rechercherParStatut(Statut statut, Pageable pageable){
         return rendezVousRepository.findByStatut(statut,pageable)
                 .map(rendezVousStatut -> rendezVousMapper.ToDTO(rendezVousStatut));
     }
-
-
-
-
 
 
 

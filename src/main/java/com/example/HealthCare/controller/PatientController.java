@@ -26,7 +26,7 @@ public class PatientController {
         PatientResponseDTO savePatient = patientService.ajouterPatient(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savePatient);
     }
-    @GetMapping
+    @GetMapping("/obtenirTousLesPatients")
     public ResponseEntity<List<PatientResponseDTO>> obtenirTousLesPatients(){
     List<PatientResponseDTO> rs = patientService.obtenirTousLesPatients();
     return ResponseEntity.ok(rs);

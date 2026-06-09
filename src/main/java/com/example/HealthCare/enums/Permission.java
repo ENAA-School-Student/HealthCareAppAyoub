@@ -23,7 +23,7 @@ public enum Permission {
     ADMIN_CREATE_rendez_vous("admin:rendez_vous:create"),
     ADMIN_CREATE_medecin("admin:medecin:create"),
     ADMIN_CREATE_diagnostic("admin:diagnostic:create"),
-    ADMIN_CREATE_dossiers_medicaux("admin:dossier_medical:create"),
+    ADMIN_CREATE_dossiers_medicaux("admin:dossiers_medicaux:create"),
     ADMIN_CREATE_patient("admin:patient:create"),
 
 
@@ -36,7 +36,7 @@ public enum Permission {
     MEDECIN_READ_rendez_vous("medecin:rendez_vous:read"),
     MEDECIN_READ_dossiers_medicaux("medecin:dossiers_medicaux:read"),
     MEDECIN_CRETAE_diagnostic("medecin:diagnostic:create"),
-    MEDECIN_CREATE_dossiers_medicaux("medecin:dossierMedical:create"),
+    MEDECIN_CREATE_dossiers_medicaux("medecin:dossiers_medicaux:create"),
     MEDECIN_UPDATE_observations("medecin:observations:update"),
 
     //PATIENT

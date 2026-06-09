@@ -63,7 +63,8 @@ public enum Role {
                     MEDECIN_CRETAE_diagnostic,
                     MEDECIN_READ_rendez_vous,
                     MEDECIN_READ_dossiers_medicaux,
-                    MEDECIN_UPDATE_observations
+                    MEDECIN_UPDATE_observations,
+                    MEDECIN_CREATE_dossiers_medicaux
             )
     );
     @Getter

@@ -12,6 +12,8 @@ import com.example.HealthCare.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class MedecinService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public MedecinResponseDTO ajouterMedecin(MedecinRequestDTO medecinRequestDTO){
         if(userRepository.findByEmail(medecinRequestDTO.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists!");
@@ -47,7 +49,7 @@ public class MedecinService {
 
 }
 
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public MedecinResponseDTO modifieMedeceine(Long id , MedecinRequestDTO medecinRequestDTO){
         Medecine medecine = medecinRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Medecin Not found with id  :"+id));
 
@@ -58,18 +60,19 @@ public class MedecinService {
         Medecine saveUpdatedMedecine = medecinRepository.save(medecine);
         return medecinMapper.ToDTO(saveUpdatedMedecine);
     }
-
+    @CacheEvict(value = "medecine", allEntries = true)
     public Boolean supprimerMedecine(long id){
         Medecine medecine = medecinRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Medecin Not found with id  :"+id));
         medecinRepository.delete(medecine);
         return true;
     }
 
-
+    @Cacheable("medecine")
     public Page<MedecinResponseDTO> obtenirTousLesMedecinPagination(Pageable pageable) {
         return medecinRepository.findAll(pageable)
                 .map(medecin -> medecinMapper.ToDTO(medecin));
     }
+    @Cacheable("medecine")
     public Page<MedecinResponseDTO> rechercherParSpecialite(String specialite, Pageable pageable){
         return medecinRepository.findMedcineByspecialite(specialite,pageable)
                 .map(medecine -> medecinMapper.ToDTO(medecine));
