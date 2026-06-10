@@ -11,6 +11,7 @@ import com.example.HealthCare.repository.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
@@ -35,19 +36,19 @@ public class DossierMedicalService {
     }
 
         public DossierMedicalResponseDTO Consulterdossielmedical(long id){
-        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(id);
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(id).orElseThrow(()-> new UsernameNotFoundException("patient not found"));
         return dossierMedicalMapper.toDTO(dossierMedical);
         }
     @CacheEvict(value = "DossierMedical" , allEntries = true)
         public DossierMedicalResponseDTO AjouterDiagnostic(long patientId , String diagnostic){
-        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId).orElseThrow(()-> new UsernameNotFoundException("patient not found"));
         dossierMedical.setDiagnostic(diagnostic);
         DossierMedical save = dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(save);
         }
     @CacheEvict(value = "DossierMedical" , allEntries = true)
     public DossierMedicalResponseDTO AjouterObservation(long patientId , String observation){
-        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId);
+        DossierMedical dossierMedical = dossierMedicalRepository.findByPatient_id(patientId).orElseThrow(()-> new UsernameNotFoundException("patient not found"));
         dossierMedical.setObservations(observation);
         DossierMedical save = dossierMedicalRepository.save(dossierMedical);
         return dossierMedicalMapper.toDTO(save);

@@ -9,12 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DossierMedicalRepository extends JpaRepository<DossierMedical,Long> {
-    DossierMedical findByPatient_id(long id);
+    Optional<DossierMedical>findByPatient_id(long id);
 
-    Page<DossierMedical> findByDiagnostic(String diagnostic,Pageable pageable);
+    Page<DossierMedical>findByDiagnostic(String diagnostic,Pageable pageable);
 
 //    @Query("select d from DossierMedical d join Patient p ON p = d.patient ")
 //    List<DossierMedical> getDossierMedecalWithPatietnInfoes();
