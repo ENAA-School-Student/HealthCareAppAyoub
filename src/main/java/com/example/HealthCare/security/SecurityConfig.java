@@ -68,6 +68,7 @@ public class SecurityConfig {
                                         ADMIN_UPDATE_observations.getPermission(),
                                         MEDECIN_UPDATE_observations.getPermission())
 
+                                .requestMatchers(HttpMethod.GET, "/api/download/**").hasAuthority(ADMIN_READ_dossiers_medicaux.getPermission())
 
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
