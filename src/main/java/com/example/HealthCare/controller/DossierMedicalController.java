@@ -3,7 +3,7 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.DossierMedicalRequestDTO;
 import com.example.HealthCare.dto.DossierMedicalResponseDTO;
 import com.example.HealthCare.service.DossierMedicalService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/DossierMedical")
 public class DossierMedicalController {
-    @Autowired
-    public DossierMedicalService dossierMedicalService;
+
+    private final DossierMedicalService dossierMedicalService;
 
     @PostMapping("/ajouterDossierMedical")
     public ResponseEntity<DossierMedicalResponseDTO> ajouterDossierMedical(@RequestBody  DossierMedicalRequestDTO dossierMedicalRequestDTO){
@@ -26,13 +26,13 @@ public class DossierMedicalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(save);
     }
     @PutMapping("/{patientId}/diagnostic")
-    public ResponseEntity<DossierMedicalResponseDTO> ajouterDiagnostic(@PathVariable long id, @RequestBody String diagnostic){
-        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterDiagnostic(id, diagnostic);
+    public ResponseEntity<DossierMedicalResponseDTO> ajouterDiagnostic(@PathVariable long patientId, @RequestBody String diagnostic){
+        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterDiagnostic(patientId, diagnostic);
         return ResponseEntity.ok(rs);
     }
     @PutMapping("/{patientId}/observation")
-    public ResponseEntity<DossierMedicalResponseDTO>  ajouterObservation(@PathVariable long id , @RequestBody String observation){
-        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterObservation(id, observation);
+    public ResponseEntity<DossierMedicalResponseDTO>  ajouterObservation(@PathVariable long patientId , @RequestBody String observation){
+        DossierMedicalResponseDTO rs = dossierMedicalService.AjouterObservation(patientId, observation);
         return ResponseEntity.ok(rs);
     }
     @GetMapping("/DossierMedical/{id}")
@@ -64,7 +64,7 @@ public class DossierMedicalController {
             @RequestParam (defaultValue = "id") String sortBy,
             @RequestParam (defaultValue = "asc") String sortDer    ){
 
-        Sort sort = sortDer.equalsIgnoreCase("asc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Sort sort = sortDer.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
 
         Page<DossierMedicalResponseDTO> rs = dossierMedicalService.getDossierMedicalParDiagnostic(diagnostic,PageRequest.of(pageNUmber-1,pageSize,sort));
         return  ResponseEntity.ok(rs);

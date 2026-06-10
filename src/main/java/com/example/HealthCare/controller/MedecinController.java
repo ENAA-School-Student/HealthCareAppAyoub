@@ -5,6 +5,7 @@ import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/medecine")
+@RequiredArgsConstructor
 public class MedecinController {
-    @Autowired
-    MedecinService medecinService;
 
-    @PostMapping
+    private final MedecinService medecinService;
+    @PostMapping("/ajouterMedecin")
     public ResponseEntity<MedecinResponseDTO> ajouterMedecin(@RequestBody @Valid MedecinRequestDTO medecinRequestDTO) {
         MedecinResponseDTO saveMedecin = medecinService.ajouterMedecin(medecinRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveMedecin);

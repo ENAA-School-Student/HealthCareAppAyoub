@@ -1,14 +1,11 @@
 package com.example.HealthCare.controller;
 
-import com.example.HealthCare.dto.MedecinResponseDTO;
-import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.enums.Statut;
-import com.example.HealthCare.repository.RendezVousRepository;
 import com.example.HealthCare.service.RendezVousService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,16 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/RendezVous")
 public class RendezVousController {
-    @Autowired
-    private RendezVousService rendezVousService;
 
-    @PostMapping
+    private final RendezVousService rendezVousService;
+
+    @PostMapping("/ajouterRendezVous")
     public ResponseEntity<RendezVousResponseDTO> ajouterRendezVous(@RequestBody RendezVousRequestDTO rendezVousRequestDTO) {
         RendezVousResponseDTO saveRendezVous = rendezVousService.ajouterRendezVous(rendezVousRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRendezVous);
@@ -44,7 +40,7 @@ public class RendezVousController {
         return ResponseEntity.ok(rs);
     }
 
-    @GetMapping
+    @GetMapping("/obtenirTousLesRendezVous")
     public ResponseEntity<List<RendezVousResponseDTO>> obtenirTousLesRendezVous() {
         List<RendezVousResponseDTO> rs = rendezVousService.obtenirTousLesRendezVous();
         return ResponseEntity.ok(rs);
@@ -62,9 +58,8 @@ public class RendezVousController {
         return ResponseEntity.ok(rs);
     }
 
-
-    @GetMapping("/RendezVousParMedecinId")
-    public ResponseEntity<List<RendezVousResponseDTO>> getMedecineRendezVous(@RequestParam @Valid long id) {
+    @GetMapping("/RendezVousParMedecinId/{id}")
+    public ResponseEntity<List<RendezVousResponseDTO>> getMedecineRendezVous(@PathVariable @Valid long id) {
         return ResponseEntity.ok(rendezVousService.findRendzeVousByMedecinID(id));
     }
 

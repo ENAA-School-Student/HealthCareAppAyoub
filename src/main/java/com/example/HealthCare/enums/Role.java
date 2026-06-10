@@ -13,7 +13,6 @@ import static com.example.HealthCare.enums.Permission.*;
 public enum Role {
     ADMIN (
             Set.of (
-
                     ADMIN_READ_profil,
                     ADMIN_READ_medecin,
                     ADMIN_READ_rendez_vous,
@@ -32,9 +31,6 @@ public enum Role {
 
                     ADMIN_DELETE_patient,
                     ADMIN_DELETE_medecin,
-                    ADMIN_DELETE_dossiers_medicaux,
-
-
 
 
                     PATIENT_READ_profil,
@@ -44,7 +40,7 @@ public enum Role {
 
 
 
-                    MEDECIN_CRETAE_diagnostic,
+                    MEDECIN_CREATAE_diagnostic,
                     MEDECIN_CREATE_dossiers_medicaux,
                     MEDECIN_READ_rendez_vous,
                     MEDECIN_READ_dossiers_medicaux,
@@ -60,7 +56,7 @@ public enum Role {
     ),
     MEDECIN(
             Set.of(
-                    MEDECIN_CRETAE_diagnostic,
+                    MEDECIN_CREATAE_diagnostic,
                     MEDECIN_READ_rendez_vous,
                     MEDECIN_READ_dossiers_medicaux,
                     MEDECIN_UPDATE_observations,

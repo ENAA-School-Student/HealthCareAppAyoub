@@ -28,14 +28,13 @@ public enum Permission {
 
 
     ADMIN_DELETE_medecin("admin:medecin:delete"),
-    ADMIN_DELETE_dossiers_medicaux("admin:dossiers_medicaux:delete"),
     ADMIN_DELETE_patient("admin:patient:delete"),
 
     //MEDECIN
 
     MEDECIN_READ_rendez_vous("medecin:rendez_vous:read"),
     MEDECIN_READ_dossiers_medicaux("medecin:dossiers_medicaux:read"),
-    MEDECIN_CRETAE_diagnostic("medecin:diagnostic:create"),
+    MEDECIN_CREATAE_diagnostic("medecin:diagnostic:create"),
     MEDECIN_CREATE_dossiers_medicaux("medecin:dossiers_medicaux:create"),
     MEDECIN_UPDATE_observations("medecin:observations:update"),
 

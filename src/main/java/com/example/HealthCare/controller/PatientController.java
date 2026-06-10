@@ -4,7 +4,7 @@ import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/patients")
+@RequiredArgsConstructor
 public class PatientController {
-    @Autowired
-    private PatientService patientService;
 
-    @PostMapping
+    private final PatientService patientService;
+
+    @PostMapping("/ajouterPatient")
     public ResponseEntity<PatientResponseDTO> ajouterPatient(@RequestBody @Valid PatientRequestDTO dto){
         PatientResponseDTO savePatient = patientService.ajouterPatient(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savePatient);
@@ -49,20 +50,13 @@ public class PatientController {
 
     @GetMapping("/getPatientsPagination")
     public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
-            @RequestParam (defaultValue = "1") int pageNumber,
-            @RequestParam (defaultValue = "5") int pageSize,
-            @RequestParam (defaultValue = "nom") String sortBy,
-            @RequestParam (defaultValue = "asc")String sortDir
+            Pageable pageable
     ){
-        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         {
-            Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation
-                    (PageRequest.of(pageNumber-1,pageSize,sort));
+            Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation(pageable);
             return ResponseEntity.ok(rs);
         }
-
     }
-
     @GetMapping("/searchPatientParNom")
     public ResponseEntity<Page<PatientResponseDTO>> rechercherParNom(
             @RequestParam String nom,

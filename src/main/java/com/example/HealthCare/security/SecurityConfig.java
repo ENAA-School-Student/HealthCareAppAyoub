@@ -1,6 +1,5 @@
 package com.example.HealthCare.security;
 
-import com.example.HealthCare.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,12 +62,11 @@ public class SecurityConfig {
                                         ADMIN_CREATE_dossiers_medicaux.getPermission(),
                                         ADMIN_CREATE_diagnostic.getPermission(),
                                         MEDECIN_CREATE_dossiers_medicaux.getPermission(),
-                                        MEDECIN_CRETAE_diagnostic.getPermission())
+                                        MEDECIN_CREATAE_diagnostic.getPermission())
 
                                 .requestMatchers(HttpMethod.PUT,"/api/DossierMedical/**").hasAnyAuthority(
                                         ADMIN_UPDATE_observations.getPermission(),
                                         MEDECIN_UPDATE_observations.getPermission())
-
 
 
                                 .anyRequest().authenticated())
