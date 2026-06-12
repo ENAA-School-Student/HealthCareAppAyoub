@@ -49,9 +49,7 @@ public class PatientController {
     }
 
     @GetMapping("/getPatientsPagination")
-    public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(
-            Pageable pageable
-    ){
+    public ResponseEntity<Page<PatientResponseDTO>> getPatientsParPagination(Pageable pageable){
         {
             Page<PatientResponseDTO> rs = patientService.obtenirTousLesPatientsParPagenation(pageable);
             return ResponseEntity.ok(rs);
