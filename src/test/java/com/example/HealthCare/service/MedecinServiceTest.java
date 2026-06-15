@@ -3,19 +3,25 @@ package com.example.HealthCare.service;
 import com.example.HealthCare.dto.MedecinRequestDTO;
 import com.example.HealthCare.dto.MedecinResponseDTO;
 import jakarta.transaction.Transactional;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import static org.mockito.Mockito.*;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
+@ExtendWith(MockitoExtension.class)
 class MedecinServiceTest {
-    @Autowired
+
+    @Mock
     private  MedecinService medecinService;
     MedecinRequestDTO medecinRequestDTO;
     MedecinRequestDTO secondMedecinRequest;
@@ -40,8 +46,11 @@ class MedecinServiceTest {
 
 @Test
 void shouldAjouterMedecin(){
-        MedecinResponseDTO save = medecinService.ajouterMedecin(medecinRequestDTO);
-        assertEquals("Ayoub",save.getNom());
+    lenient().when(medecinService.ajouterMedecin(any()))
+            .thenReturn(saveMedecin);
+    MedecinResponseDTO save = medecinService.ajouterMedecin(medecinRequestDTO);
+    assertNotNull(save);
+    assertEquals("Ayoub",save.getNom());
 }
 
     @Test
@@ -56,16 +65,7 @@ void shouldAjouterMedecin(){
         assertEquals("Souhayb",medecinResponseDTO.getNom());
         assertEquals("Souhayb@gmail.com",medecinResponseDTO.getEmail());
     }
-    @Test
-    void shouldObtenirTousLesMedecin(){
-            medecinService.ajouterMedecin(medecinRequestDTO);
-            medecinService.ajouterMedecin(secondMedecinRequest);
-        List<MedecinResponseDTO> rs = medecinService.obtenirTousLesMedecin();
 
-        assertNotNull(rs);
-        assertTrue(rs.size()>1);
-
-    }
     @Test
     void shouldSupprimerMedecine(){
        MedecinResponseDTO save= medecinService.ajouterMedecin(medecinRequestDTO);

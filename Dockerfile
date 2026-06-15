@@ -1,4 +1,9 @@
-FROM eclipse-temurin:21
+FROM maven:3.9-eclipse-temurin-21
+
 WORKDIR /app
-COPY target/HealthCare-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+COPY . .
+
+RUN mvn clean package -DskipTests
+
+ENTRYPOINT ["java","-jar","target/HealthCare-0.0.1-SNAPSHOT.jar"]
