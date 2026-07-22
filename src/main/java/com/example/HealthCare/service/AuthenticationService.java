@@ -6,7 +6,9 @@ import com.example.HealthCare.dto.AuthenticationResponceDTO;
 import com.example.HealthCare.dto.RegisterDTO;
 import com.example.HealthCare.enums.Role;
 import com.example.HealthCare.mapper.UserMapper;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.User;
+import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.UserRepository;
 import com.example.HealthCare.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,14 +27,17 @@ public class AuthenticationService implements UserDetailsService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PatientRepository patientRepository;
 
 
-    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, JwtService jwtService, AuthenticationManager authenticationManager) {
+
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, JwtService jwtService, AuthenticationManager authenticationManager, PatientRepository patientRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder=passwordEncoder;
         this.userMapper = userMapper;
         this.jwtService=jwtService;
         this.authenticationManager = authenticationManager;
+        this.patientRepository=patientRepository;
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -60,11 +65,18 @@ public class AuthenticationService implements UserDetailsService {
         user.setEmail(registerDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setRole(Role.PATIENT);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        Patient patient = new Patient();
+        patient.setUser(savedUser);
+        patient.setEmail(savedUser.getEmail());
+
+        patientRepository.save(patient);
 
     var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
                 .token(jwtToken)
+                .username(user.getUsername())
                 .build();
     }
 
@@ -76,6 +88,7 @@ public class AuthenticationService implements UserDetailsService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponceDTO.builder()
                 .token(jwtToken)
+                .username(user.getUsername())
                 .build();
     }
 }

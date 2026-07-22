@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class PatientController {
         PatientResponseDTO rs = patientService.modifierpatient(id, patientRequestDTO);
         return ResponseEntity.ok(rs);
     }
-    @DeleteMapping("/supprimer/{id}")
+        @DeleteMapping("/supprimer/{id}")
     public ResponseEntity<Void> supprimerPatient(@PathVariable long id){
         patientService.supprimerPatinet(id);
       return  ResponseEntity.noContent().build();
@@ -67,6 +69,23 @@ public class PatientController {
         Pageable pageable = PageRequest.of(pageNumber-1,pageSize,sort);
         Page<PatientResponseDTO> rs = patientService.rechercherParNom(nom,pageable);
         return ResponseEntity.ok(rs);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAuthority('patient:profil:read')")
+    public ResponseEntity<PatientResponseDTO> getMe(Authentication authentication){
+        System.out.println("AUTH USERNAME = " + authentication.getName());
+        String username = authentication.getName();
+        return ResponseEntity.ok(patientService.obtenirParUsername(username));
+    }
+
+    @PutMapping("/me")
+    @PreAuthorize("hasAuthority('patient:info_personnel:update')")
+    public ResponseEntity<PatientResponseDTO> updateMe(
+            Authentication authentication,
+            @RequestBody PatientRequestDTO dto) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(patientService.modifierParUsername(username, dto));
     }
 
 }

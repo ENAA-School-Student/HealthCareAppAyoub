@@ -6,6 +6,7 @@ import com.example.HealthCare.dto.PatientRequestDTO;
 import com.example.HealthCare.dto.PatientResponseDTO;
 import com.example.HealthCare.enums.Role;
 import com.example.HealthCare.mapper.PatientMapper;
+import com.example.HealthCare.mapper.UserMapper;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.PatientRepository;
@@ -89,6 +90,27 @@ public class PatientService {
         return patientRepository.findByNom(nom,pageable)
                 .map(patient -> patientMapper.toDTO(patient));
   }
+  @Cacheable("patients")
+    public PatientResponseDTO obtenirParUsername(String username){
+      Patient patient = patientRepository.findByUserUsername(username)
+              .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+      return patientMapper.toDTO(patient);
+  }
+    @CacheEvict(value = "patients", allEntries = true)
+    public PatientResponseDTO modifierParUsername(String username, PatientRequestDTO dto) {
+        Patient patient = patientRepository.findByUserUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with username: " + username));
+
+        patient.setNom(dto.getNom());
+        patient.setPrenom(dto.getPrenom());
+        patient.setTelephone(dto.getTelephone());
+        patient.setEmail(dto.getEmail());
+        patient.setDateNaissance(dto.getDateNaissance());
+
+        Patient updatedPatient = patientRepository.save(patient);
+
+        return patientMapper.toDTO(updatedPatient);
+    }
 
 //public Page<PatientResponseDTO> findBytelephone(String tele, Pageable p){
 //        return patientRepository.findByTelePhone(tele,p)
