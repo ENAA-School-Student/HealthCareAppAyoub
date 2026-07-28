@@ -1,4 +1,4 @@
-Application web Full-Stack permettant de gérer les patients, les médecins, les rendez-vous et les dossiers médicaux afin de simplifier la gestion des établissements de santé.
+
 
 Diagramme de Classes : 
 
