@@ -1,5 +1,6 @@
 package com.example.HealthCare.controller;
 
+import com.example.HealthCare.dto.MedecinResponseDTO;
 import com.example.HealthCare.dto.RendezVousRequestDTO;
 import com.example.HealthCare.dto.RendezVousResponseDTO;
 import com.example.HealthCare.enums.Statut;
@@ -99,16 +100,22 @@ public class RendezVousController {
                 rs = rendezVousService.rechercherParStatut(statut,pageable);
         return ResponseEntity.ok(rs);
     }
-}
 
-//    @GetMapping("/getALlrendezVous")
-//    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous(){
-//        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());
-////    }
-//    @GetMapping("/getAllMedecinRendesVous")
-//    public ResponseEntity<List<MedecinResponseDTO>> getAllmedeccenRendezVous(){
-//        return ResponseEntity.ok(rendezVousService.getALLMedecineRendezVouus());
-//    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> countRendzeVous(){
+        return  ResponseEntity.ok(rendezVousService.getRendezVousTotal()) ;
+    }
+
+    @GetMapping("/getAllPatietnRendzeVous")
+    public ResponseEntity<List<RendezVousResponseDTO>> getAllPatietnRendzeVous() {
+        return ResponseEntity.ok(rendezVousService.getallPatientRendzeVous());
+  }
+
+    @GetMapping("/getAllMedecinRendesVous")
+    public ResponseEntity<List<MedecinResponseDTO>> getAllmedeccenRendezVous(){
+        return ResponseEntity.ok(rendezVousService.getALLMedecineRendezVouus());
+    }
+
 //    @GetMapping("/getAllrendevouGreaterTHAN")
 //  public ResponseEntity<List<PatientResponseDTO>> getAllpatientGreaterThan(@RequestParam int number){
 //        return ResponseEntity.ok(rendezVousService.getALlRendezVousGretaerTHAN(number));
@@ -118,4 +125,4 @@ public class RendezVousController {
 //        return ResponseEntity.ok(rendezVousService.getAllRendezVousAfterToday());
 //    }
 
-
+    }

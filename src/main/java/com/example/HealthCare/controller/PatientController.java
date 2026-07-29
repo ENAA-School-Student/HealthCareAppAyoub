@@ -81,11 +81,16 @@ public class PatientController {
 
     @PutMapping("/me")
     @PreAuthorize("hasAuthority('patient:info_personnel:update')")
-    public ResponseEntity<PatientResponseDTO> updateMe(
-            Authentication authentication,
-            @RequestBody PatientRequestDTO dto) {
+    public ResponseEntity<PatientResponseDTO> updateMe(Authentication authentication, @RequestBody PatientRequestDTO dto) {
         String username = authentication.getName();
         return ResponseEntity.ok(patientService.modifierParUsername(username, dto));
     }
+
+    @PreAuthorize("hasAuthority('patient:profil:read')")
+    @GetMapping("/count")
+    public  ResponseEntity<Long> totalPatients(){
+        return ResponseEntity.ok(patientService.getTotalPatients());
+    }
+
 
 }

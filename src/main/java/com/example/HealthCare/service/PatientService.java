@@ -112,6 +112,10 @@ public class PatientService {
         return patientMapper.toDTO(updatedPatient);
     }
 
+    @Cacheable("patients")
+    public Long getTotalPatients() {
+        return patientRepository.count();
+    }
 //public Page<PatientResponseDTO> findBytelephone(String tele, Pageable p){
 //        return patientRepository.findByTelePhone(tele,p)
 //                .map(patientMapper::toDTO);

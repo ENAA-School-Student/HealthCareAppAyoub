@@ -78,5 +78,9 @@ public class MedecinService {
                 .map(medecine -> medecinMapper.ToDTO(medecine));
     }
 
+@Cacheable("medecine")
+    public  Long getTotalMedecine(){
+        return  medecinRepository.count();
+}
 }
 

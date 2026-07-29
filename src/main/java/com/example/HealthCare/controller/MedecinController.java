@@ -71,4 +71,9 @@ public class MedecinController {
         return ResponseEntity.ok(rs);
     }
 
+    @GetMapping("/count")
+       public ResponseEntity<Long> totalMedecine(){
+           return ResponseEntity.ok(medecinService.getTotalMedecine());
+        }
+
 }

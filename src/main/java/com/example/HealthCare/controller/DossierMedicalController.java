@@ -55,7 +55,6 @@ public class DossierMedicalController {
         return ResponseEntity.ok(rs);
     }
 
-
     @GetMapping("getDossierMedicalParDiagnostic")
     public ResponseEntity<Page<DossierMedicalResponseDTO>> getDossierMedicalParDiagnostic(
             @RequestParam String diagnostic,
@@ -70,8 +69,10 @@ public class DossierMedicalController {
         return  ResponseEntity.ok(rs);
     }
 
-
-
+    @GetMapping("/count")
+    public ResponseEntity<Long> totalDossierMedical(){
+        return ResponseEntity.ok(dossierMedicalService.getDossierMedicaltotal());
+    }
 
 //    @GetMapping("/dossierWithPatietns")
 //    public ResponseEntity<List<DossierMedicalResponseDTO>> getAllPatientifoesFromDossier(){

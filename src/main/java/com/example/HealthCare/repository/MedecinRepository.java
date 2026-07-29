@@ -15,5 +15,5 @@ public interface MedecinRepository extends JpaRepository<Medecine,Long> {
     @Query("select m from Medecine m where m.specialite = :specialite")
     Page<Medecine> findMedcineByspecialite(String specialite, Pageable pageable);
 
-
+long count();
 }

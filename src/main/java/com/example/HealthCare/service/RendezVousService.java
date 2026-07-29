@@ -35,6 +35,8 @@ public class RendezVousService {
     MedecinRepository medecinRepository;
     @Autowired
     PatientRepository patientRepository;
+    @Autowired
+    MedecinMapper medecinMapper;
 
     @CacheEvict(value = "medecine", allEntries = true)
 
@@ -133,6 +135,10 @@ public Page<RendezVousResponseDTO> obtenirTousLesRendezVousPagination(Pageable p
         return rendezVousRepository.findByStatut(statut,pageable)
                 .map(rendezVousStatut -> rendezVousMapper.ToDTO(rendezVousStatut));
     }
+    @Cacheable("rendezVous")
+    public Long getRendezVousTotal(){
+        return  rendezVousRepository.count();
+    }
 
 
 
@@ -143,19 +149,21 @@ public Page<RendezVousResponseDTO> obtenirTousLesRendezVousPagination(Pageable p
 //               )
 //               .toList();
 //}
-//
-//public List<RendezVousResponseDTO> getallPatientRendzeVous(){
-//        return rendezVousRepository.patietnRendezVous()
-//                .stream()
-//                .map(rendzevous -> rendezVousMapper.ToDTO(rendzevous)).toList();
-//}
-//
-//public List<MedecinResponseDTO> getALLMedecineRendezVouus(){
-//        return rendezVousRepository.allRendezvVousDeUnmedecein()
-//                .stream()
-//                .map(medcienrendezVous -> medecinMapper.ToDTO(medcienrendezVous)).toList();
-//}
-//
+
+public List<RendezVousResponseDTO> getallPatientRendzeVous(){
+        return rendezVousRepository.patietnRendezVous()
+                .stream()
+                .map(rendzevous -> rendezVousMapper.ToDTO(rendzevous)).toList();
+}
+
+
+public List<MedecinResponseDTO> getALLMedecineRendezVouus(){
+        return rendezVousRepository.allMedecinRendezVous()
+                .stream()
+                .map(medcienrendezVous -> medecinMapper.ToDTO(medcienrendezVous)).toList();
+}
+
+
 //public List<PatientResponseDTO> getALlRendezVousGretaerTHAN(int number){
 //        return rendezVousRepository.getAllPatietRendezVousGreaterThan(number)
 //                .stream()

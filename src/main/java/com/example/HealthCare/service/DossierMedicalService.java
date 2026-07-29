@@ -65,15 +65,18 @@ public class DossierMedicalService {
                         .map(dossierMedicalMapper::toDTO);
         }
 
+
+    @Cacheable("DossierMedical")
+    public Long getDossierMedicaltotal() {
+        return dossierMedicalRepository.count();
+    }
+
+
 //    public List<DossierMedicalResponseDTO> getDossierMedecalWithPatietnInfoes(){
 //        return dossierMedicalRepository.getDossierMedecalWithPatietnInfoes()
 //                .stream()
 //                .map(dossierMedecal -> dossierMedicalMapper.toDTO(dossierMedecal)).toList();
 //    }
-
-
-
-
 
 
 }
